@@ -10,15 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroupDrive">
         <activity
-            android:name=".MakerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TripsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Main"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
