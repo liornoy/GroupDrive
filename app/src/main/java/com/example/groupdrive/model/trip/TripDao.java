@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface TripDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void addTrip(Trip trip);
+    void insert(Trip trip);
 
     @Delete
     void delete(Trip trip);
