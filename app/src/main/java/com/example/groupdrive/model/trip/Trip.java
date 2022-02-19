@@ -4,16 +4,14 @@ package com.example.groupdrive.model.trip;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.groupdrive.Itinerary;
-
 @Entity(tableName = "trip_table")
 public class Trip {
     @PrimaryKey(autoGenerate = true)
     int id;
     String title;
-    Itinerary itinerary;
+    //Itinerary itinerary;
     String duration;
-    int[] participents;
+    //int[] participents;
 
     public Trip(String title, String duration) {
         this.title = title;
