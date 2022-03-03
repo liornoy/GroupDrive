@@ -1,9 +1,4 @@
-package com.example.groupdrive;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+package com.example.groupdrive.ui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,19 +9,22 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import com.example.groupdrive.model.trip.Trip;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.groupdrive.R;
+import com.example.groupdrive.model.trip.Trip;
+import com.example.groupdrive.ui.adapters.recyclerAdapter;
+import com.example.groupdrive.ui.viewmodels.TripViewModel;
 
 public class TripsActivity extends AppCompatActivity {
-    private ArrayList<Trip> trips;
     private RecyclerView recyclerView;
-    private Button joinTripBtn;
-    private Button join2TripBtn;
+    private Button joinNewTripBtn;
     private Button createNewTripBtn;
-    public void addNewTrip(Trip trip){
-        trips.add(trip);
-    }
+    private TripViewModel tripViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +36,9 @@ public class TripsActivity extends AppCompatActivity {
                 gotoCreateNewTripActivity();
             }
         });
-        joinTripBtn = findViewById(R.id.JoinTripBtn);
-        join2TripBtn = findViewById(R.id.joinBtn);
-        joinTripBtn.setOnClickListener(new View.OnClickListener() {
+        tripViewModel = new TripViewModel(this.getApplication());
+        joinNewTripBtn = findViewById(R.id.JoinTripBtn);
+        joinNewTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -61,7 +59,6 @@ public class TripsActivity extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.recyclerView);
-        trips = new ArrayList<>();
         setTripInfo();
         setAdapter();
     }
@@ -70,7 +67,7 @@ public class TripsActivity extends AppCompatActivity {
         startActivity(switchActivityIntent);
     }
     private void setAdapter() {
-        recyclerAdapter adapter = new recyclerAdapter(trips);
+        recyclerAdapter adapter = new recyclerAdapter(tripViewModel.getAllTrips());
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -78,9 +75,9 @@ public class TripsActivity extends AppCompatActivity {
     }
 
     private void setTripInfo() {
-        trips.add(new Trip("Jerusalem and Bethlehem: Full-Day Trip from Tel Aviv", "FULL DAY"));
-        trips.add(new Trip("Caesarea, Haifa & Akko Day Trip from Tel Aviv","FULL DAY"));
-        trips.add(new Trip("Masada, Ein Gedi and Dead Sea Guided Tour","HALF DAY"));
-        trips.add(new Trip("All the best of Tel Aviv walking tour","~5 HOURS"));
+        tripViewModel.insert(new Trip("Jerusalem and Bethlehem: Full-Day Trip from Tel Aviv", "FULL DAY"));
+        tripViewModel.insert(new Trip("Caesarea, Haifa & Akko Day Trip from Tel Aviv", "FULL DAY"));
+        tripViewModel.insert(new Trip("Masada, Ein Gedi and Dead Sea Guided Tour", "HALF DAY"));
+        tripViewModel.insert(new Trip("All the best of Tel Aviv walking tour", "~5 HOURS"));
     }
 }

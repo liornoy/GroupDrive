@@ -1,8 +1,10 @@
-package com.example.groupdrive;
+package com.example.groupdrive.ui.fragments;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
+import com.example.groupdrive.R;
 
 public class Main extends AppCompatActivity {
 

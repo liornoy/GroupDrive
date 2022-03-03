@@ -10,13 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroupDrive">
         <activity
-            android:name=".MakerActivity"
+            android:name=".ui.fragments.MakerActivity"
             android:exported="false" />
         <activity
-            android:name=".TripsActivity"
+            android:name=".ui.fragments.TripsActivity"
             android:exported="false" />
         <activity
-            android:name=".Main"
+            android:name=".ui.fragments.Main"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
