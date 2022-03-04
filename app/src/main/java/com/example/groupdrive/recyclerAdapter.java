@@ -48,7 +48,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     }
 
     private void gotoMaps(View view) {
-        Intent switchActivityIntent = new Intent(view.getContext(), MapsActivity.class);
+        Intent switchActivityIntent = new Intent(view.getContext(), MapsActivityAttempt.class);
         view.getContext().startActivity(switchActivityIntent);
     }
 

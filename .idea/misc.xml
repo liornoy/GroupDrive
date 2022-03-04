@@ -3,17 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Ofir/AndroidStudioProjects/GroupDrive21/app/src/main/res/layout/activity_main.xml" value="0.2911458333333333" />
+        <entry key="..\:/Users/Ofir/AndroidStudioProjects/GroupDrive21/app/src/main/res/layout/activity_main2.xml" value="0.2911458333333333" />
+        <entry key="..\:/Users/Ofir/AndroidStudioProjects/GroupDrive21/app/src/main/res/layout/activity_maps.xml" value="0.33" />
+        <entry key="..\:/Users/Ofir/AndroidStudioProjects/GroupDrive21/app/src/main/res/layout/activity_maps_attempt.xml" value="0.2911458333333333" />
+        <entry key="..\:/Users/Ofir/AndroidStudioProjects/GroupDrive21/app/src/main/res/layout/trip_item.xml" value="0.33" />
         <entry key="app/src/main/res/drawable/layout_border.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.2" />
         <entry key="app/src/main/res/layout/join_trip.xml" value="0.25" />
         <entry key="app/src/main/res/layout/trip_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/trip_maker.xml" value="0.28804347826086957" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
