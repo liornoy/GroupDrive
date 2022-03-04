@@ -50,7 +50,7 @@
         android:id="@+id/button3"
         android:layout_width="113dp"
         android:layout_height="41dp"
-        android:enabled="false"
+        android:enabled="true"
         android:text="Join"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
