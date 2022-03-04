@@ -30,6 +30,7 @@ public class TripsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_main2);
         createNewTripBtn = findViewById(R.id.createNewTripBtn);
         createNewTripBtn.setOnClickListener(new View.OnClickListener() {
