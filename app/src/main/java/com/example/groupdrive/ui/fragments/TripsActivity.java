@@ -1,4 +1,4 @@
-package com.example.groupdrive;
+package com.example.groupdrive.ui.fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -14,7 +14,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
+import com.example.groupdrive.R;
 import com.example.groupdrive.model.trip.Trip;
+import com.example.groupdrive.ui.adapters.recyclerAdapter;
+import com.example.groupdrive.ui.fragments.MakerActivity;
 
 import java.util.ArrayList;
 
@@ -31,7 +34,7 @@ public class TripsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.pending_trips);
         createNewTripBtn = findViewById(R.id.createNewTripBtn);
         createNewTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override

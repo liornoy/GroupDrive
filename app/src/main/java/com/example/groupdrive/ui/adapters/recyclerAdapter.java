@@ -1,4 +1,4 @@
-package com.example.groupdrive;
+package com.example.groupdrive.ui.adapters;
 
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.groupdrive.ui.fragments.MapsActivity;
+import com.example.groupdrive.R;
 import com.example.groupdrive.model.trip.Trip;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     }
 
     private void gotoMaps(View view) {
-        Intent switchActivityIntent = new Intent(view.getContext(), MapsActivityAttempt.class);
+        Intent switchActivityIntent = new Intent(view.getContext(), MapsActivity.class);
         view.getContext().startActivity(switchActivityIntent);
     }
 
