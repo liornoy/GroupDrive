@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GroupDrive">
         <activity
-            android:name=".MapsActivityAttempt"
+            android:name=".ui.fragments.MapsActivity"
             android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
@@ -28,17 +28,10 @@
             android:value="${GOOGLE_MAPS_API_KEY}" />
 
         <activity
-            android:name=".MapsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".MakerActivity"
+            android:name=".ui.fragments.MakerActivity"
             android:exported="false" />
         <activity
-            android:name=".TripsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Main"
+            android:name=".ui.fragments.TripsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

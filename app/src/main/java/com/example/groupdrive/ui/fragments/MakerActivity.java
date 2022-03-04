@@ -1,4 +1,4 @@
-package com.example.groupdrive;
+package com.example.groupdrive.ui.fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.groupdrive.R;
 
 public class MakerActivity extends AppCompatActivity {
     private Button createBtn;
