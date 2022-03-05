@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.groupdrive.ui.fragments.MapsActivity;
 import com.example.groupdrive.R;
 import com.example.groupdrive.model.trip.Trip;
+import com.example.groupdrive.ui.fragments.MapsActivity;
 
 import java.util.ArrayList;
 
@@ -24,8 +24,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView tripTitleText;
-        private TextView tripDurationText;
+        private TextView tripTitleText, tripDateBox, tripDurationText, phText;
         private Button joinLiveTripBtn;
 
         public MyViewHolder(final View view) {
@@ -33,6 +32,8 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
             tripTitleText = view.findViewById(R.id.TripNameTextView2);
             tripDurationText = view.findViewById(R.id.tripduration2);
             joinLiveTripBtn = view.findViewById(R.id.button3);
+            tripDateBox = view.findViewById(R.id.datetextView12);
+            phText = view.findViewById(R.id.phytextview);
             joinLiveTripBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -58,8 +59,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
         String name = tripList.get(position).getTitle();
         String duration = tripList.get(position).getDuration();
+        String date = tripList.get(position).getDate();
+        String physicality = tripList.get(position).getPhysicality();
         holder.tripTitleText.setText(name);
+        holder.phText.setText(physicality);
         holder.tripDurationText.setText(duration);
+        holder.tripDateBox.setText(date);
     }
 
     @Override

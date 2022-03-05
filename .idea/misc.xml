@@ -17,7 +17,9 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.33" />
         <entry key="app/src/main/res/layout/join_trip.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/trip_item.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/pending_trips.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/trip_details.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/trip_item.xml" value="0.5" />
         <entry key="app/src/main/res/layout/trip_maker.xml" value="0.28804347826086957" />
       </map>
     </option>

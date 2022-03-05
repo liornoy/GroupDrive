@@ -9,13 +9,27 @@ public class Trip {
     @PrimaryKey(autoGenerate = true)
     int id;
     String title;
-    //Itinerary itinerary;
+    String date;
     String duration;
-    //int[] participents;
+    String description;
+    int physicality;
+    String departureTime;
 
-    public Trip(String title, String duration) {
+    public Trip(String title, String duration, String date, String description, int physicality, String departureTime) {
         this.title = title;
         this.duration = duration;
+        this.description = description;
+        this.date = date;
+        this.physicality = physicality;
+        this.departureTime = departureTime;
+    }
+
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    public String getPhysicality() {
+        return physicality + "/5";
     }
 
     public String getTitle() {
@@ -24,6 +38,14 @@ public class Trip {
 
     public String getDuration() {
         return duration;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getDesc() {
+        return description;
     }
 
     public void setTitle(String newTitle) {
