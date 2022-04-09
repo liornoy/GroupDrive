@@ -1,10 +1,18 @@
 package com.example.groupdrive.model.user;
 
+import android.net.Uri;
+
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user_table")
 public class User {
-    @PrimaryKey(autoGenerate = true)
-    int id;
+    String personName;
+    String personId;
+    Uri personPhoto;
+
+    public User(String id, String name, Uri photo) {
+        personId = id;
+        personName = name;
+        personPhoto = photo;
+    }
 }

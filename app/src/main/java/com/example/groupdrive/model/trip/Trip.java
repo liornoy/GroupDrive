@@ -7,15 +7,12 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "trip_table")
 public class Trip {
     @PrimaryKey(autoGenerate = true)
-    int id;
-    String title;
-    String date;
-    String duration;
-    String description;
-    int physicality;
-    String departureTime;
+    private User creator;
+    private string meetingPoint;
+    private Date dateTime;
+    private List<User> participants;
 
-    public Trip(String title, String duration, String date, String description, int physicality, String departureTime) {
+    public Trip(User creator, String duration, String date, String description, int physicality, String departureTime) {
         this.title = title;
         this.duration = duration;
         this.description = description;

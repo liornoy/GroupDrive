@@ -1,6 +1,7 @@
 package com.example.groupdrive;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.groupdrive.model.user.User;
 import com.example.groupdrive.ui.fragments.TripsActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -71,15 +73,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
+            GoogleSignInAccount acct = completedTask.getResult(ApiException.class);
+            String userName = acct.getDisplayName();
+            String googleId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+            User user = new User(googleId, userName, personPhoto);
             // Signed in successfully, show authenticated UI.
             gotoTripsActivity();
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
             Log.d("signInResult:failed code=", e.toString());
-            gotoTripsActivity();
+            //gotoTripsActivity();
         }
     }
 
