@@ -18,6 +18,7 @@ import com.example.groupdrive.R;
 import com.example.groupdrive.model.trip.Trip;
 import com.example.groupdrive.ui.adapters.recyclerAdapter;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class TripsActivity extends AppCompatActivity {
@@ -46,6 +47,8 @@ public class TripsActivity extends AppCompatActivity {
         joinTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 // inflate the layout of the popup window
                 LayoutInflater inflater = (LayoutInflater)
                         getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -63,6 +66,7 @@ public class TripsActivity extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.recyclerView);
+        //TODO CALL GET TRIPS RETROFIT - INSERT TO TRIPS LIST
         trips = new ArrayList<>();
         setTripInfo();
         setAdapter();
@@ -80,9 +84,8 @@ public class TripsActivity extends AppCompatActivity {
     }
 
     private void setTripInfo() {
-        trips.add(new Trip("Jerusalem and Bethlehem: Full-Day Trip from Tel Aviv", "Full Day", "11/6/22", "Lorem ipsum dolor sit amet, id oratio definiebas vituperata vim, an brute atomorum nam. Per at quem clita reprehendunt. No meis vivendum vel, no duis mazim nostrud his. Nulla comprehensam sea eu, dolor legimus dissentiet qui eu, ei mei probo ignota vocent.", 3, "9:30"));
-        trips.add(new Trip("Caesarea, Haifa & Akko Day Trip from Tel Aviv", "Full Day", "29/5/22", "Lorem ipsum dolor sit amet, id oratio definiebas vituperata vim, an brute atomorum nam. Per at quem clita reprehendunt. No meis vivendum vel, no duis mazim nostrud his. Nulla comprehensam sea eu, dolor legimus dissentiet qui eu, ei mei probo ignota vocent.", 2, "10:00"));
-        trips.add(new Trip("Masada, Ein Gedi and Dead Sea Guided Tour", "Full Day", "14/4/22", "Lorem ipsum dolor sit amet, id oratio definiebas vituperata vim, an brute atomorum nam. Per at quem clita reprehendunt. No meis vivendum vel, no duis mazim nostrud his. Nulla comprehensam sea eu, dolor legimus dissentiet qui eu, ei mei probo ignota vocent.", 3, "8:30"));
-        trips.add(new Trip("All the best of Tel Aviv walking tour", "~5 Hours", "10/4/22", "Lorem ipsum dolor sit amet, id oratio definiebas vituperata vim, an brute atomorum nam. Per at quem clita reprehendunt. No meis vivendum vel, no duis mazim nostrud his. Nulla comprehensam sea eu, dolor legimus dissentiet qui eu, ei mei probo ignota vocent.", 2, "11:00"));
+        trips.add(new Trip(1, "1", "New York Families Bus Trip",
+                "Times Square", "https://www.waze.com/ul?ll=40.75889500%2C-73.98513100&navigate=yes&zoom=17",
+                Date.valueOf("2022-04-09"), "This is a trip all over New York"));
     }
 }

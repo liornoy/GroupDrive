@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             Uri personPhoto = acct.getPhotoUrl();
             User user = new User(googleId, userName, personPhoto);
             // Signed in successfully, show authenticated UI.
+            // TODO: CALL POST API/USERS
             gotoTripsActivity();
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.

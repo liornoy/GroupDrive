@@ -24,21 +24,20 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView tripTitleText, tripDateBox, tripDurationText, phText;
+        private TextView tripTitleTextView, tripDateTextView, tripMeetingPointTextView;
         private Button joinLiveTripBtn;
 
         public MyViewHolder(final View view) {
             super(view);
-            tripTitleText = view.findViewById(R.id.TripNameTextView2);
-            tripDurationText = view.findViewById(R.id.tripduration2);
+            tripTitleTextView = view.findViewById(R.id.TripTitleTextView);
+            tripMeetingPointTextView = view.findViewById(R.id.TripMeetingPointTextView);
+            tripDateTextView = view.findViewById(R.id.TripDateTextView);
             joinLiveTripBtn = view.findViewById(R.id.button3);
-            tripDateBox = view.findViewById(R.id.datetextView12);
-            phText = view.findViewById(R.id.phytextview);
             joinLiveTripBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     gotoMaps(view);
-                }
+                } //TODO: OnJoinTrip
             });
         }
     }
@@ -57,14 +56,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
-        String name = tripList.get(position).getTitle();
-        String duration = tripList.get(position).getDuration();
-        String date = tripList.get(position).getDate();
-        String physicality = tripList.get(position).getPhysicality();
-        holder.tripTitleText.setText(name);
-        holder.phText.setText(physicality);
-        holder.tripDurationText.setText(duration);
-        holder.tripDateBox.setText(date);
+        String title = tripList.get(position).getTitle();
+        String startPoint = tripList.get(position).getMeetingPoint();
+        String date = tripList.get(position).getDateTime().toString();
+        holder.tripTitleTextView.setText(title);
+        holder.tripMeetingPointTextView.setText(startPoint);
+        holder.tripDateTextView.setText(date);
     }
 
     @Override
