@@ -1,42 +1,37 @@
 package com.example.groupdrive.model.user;
-
-import android.net.Uri;
-
-import androidx.room.Entity;
-
-@Entity(tableName = "user_table")
 public class User {
-    public String getPersonName() {
-        return personName;
+
+    public String getGoogleID() {
+        return googleID;
     }
 
-    public void setPersonName(String personName) {
-        this.personName = personName;
+    public void setGoogleID(String googleID) {
+        this.googleID = googleID;
     }
 
-    public String getPersonId() {
-        return personId;
+    public String getName() {
+        return name;
     }
 
-    public void setPersonId(String personId) {
-        this.personId = personId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Uri getPersonPhoto() {
-        return personPhoto;
+    public String getPhotoURL() {
+        return photoURL;
     }
 
-    public void setPersonPhoto(Uri personPhoto) {
-        this.personPhoto = personPhoto;
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
-    String personName;
-    String personId;
-    Uri personPhoto;
+    String googleID;
+    String name;
+    String photoURL;
 
-    public User(String id, String name, Uri photo) {
-        personId = id;
-        personName = name;
-        personPhoto = photo;
+    public User(String id, String name, String photo) {
+        googleID = id;
+        this.name = name;
+        photoURL = photo;
     }
 }
