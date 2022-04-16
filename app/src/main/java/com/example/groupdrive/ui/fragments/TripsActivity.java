@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -34,6 +35,7 @@ public class TripsActivity extends AppCompatActivity {
     private Button join2TripBtn;
     private Button createNewTripBtn;
     private ProgressBar progressBar;
+    private TextView noTripsTextView;
 
     public void addNewTrip(Trip trip) {
         trips.add(trip);
@@ -44,6 +46,8 @@ public class TripsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.pending_trips);
+        noTripsTextView = findViewById(R.id.textView2);
+        noTripsTextView.setVisibility(View.INVISIBLE);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(ProgressBar.VISIBLE);
         createNewTripBtn = findViewById(R.id.createNewTripBtn);
@@ -58,8 +62,6 @@ public class TripsActivity extends AppCompatActivity {
         joinTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
                 // inflate the layout of the popup window
                 LayoutInflater inflater = (LayoutInflater)
                         getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -77,7 +79,6 @@ public class TripsActivity extends AppCompatActivity {
             }
         });
         recyclerView = findViewById(R.id.recyclerView);
-        //TODO CALL GET TRIPS RETROFIT - INSERT TO TRIPS LIST
         trips = new ArrayList<>();
         setTripInfo();
     }
@@ -103,6 +104,9 @@ public class TripsActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     trips = response.body();
                     progressBar.setVisibility(ProgressBar.INVISIBLE);
+                    if (trips.size() == 0) {
+                        noTripsTextView.setVisibility(View.VISIBLE);
+                    }
                     setAdapter();
                 } else {
                     // TODO Null response
