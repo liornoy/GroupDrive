@@ -24,11 +24,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView tripTitleTextView, tripDateTextView, tripMeetingPointTextView;
+        private TextView tripTitleTextView, tripDateTextView, tripMeetingPointTextView, creatorTextView;
         private Button joinLiveTripBtn;
 
         public MyViewHolder(final View view) {
             super(view);
+            creatorTextView = view.findViewById(R.id.textView10);
             tripTitleTextView = view.findViewById(R.id.TripTitleTextView);
             tripMeetingPointTextView = view.findViewById(R.id.TripMeetingPointTextView);
             tripDateTextView = view.findViewById(R.id.TripDateTextView);
@@ -58,10 +59,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
         String title = tripList.get(position).getTitle();
         String startPoint = tripList.get(position).getMeetingPoint();
-        String date = tripList.get(position).getDateTime().toString();
+        String date = tripList.get(position).getDateTime();
+        String creator = tripList.get(position).getCreatorGID();
         holder.tripTitleTextView.setText(title);
         holder.tripMeetingPointTextView.setText(startPoint);
         holder.tripDateTextView.setText(date);
+        holder.creatorTextView.setText(creator);
     }
 
     @Override
