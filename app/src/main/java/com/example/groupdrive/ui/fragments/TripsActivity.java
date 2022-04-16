@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -15,11 +16,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groupdrive.R;
+import com.example.groupdrive.api.ApiClient;
+import com.example.groupdrive.api.ApiInterface;
 import com.example.groupdrive.model.trip.Trip;
 import com.example.groupdrive.ui.adapters.recyclerAdapter;
 
-import java.sql.Date;
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TripsActivity extends AppCompatActivity {
     private ArrayList<Trip> trips;
@@ -27,14 +33,19 @@ public class TripsActivity extends AppCompatActivity {
     private Button joinTripBtn;
     private Button join2TripBtn;
     private Button createNewTripBtn;
-    public void addNewTrip(Trip trip){
+    private ProgressBar progressBar;
+
+    public void addNewTrip(Trip trip) {
         trips.add(trip);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.pending_trips);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         createNewTripBtn = findViewById(R.id.createNewTripBtn);
         createNewTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +80,6 @@ public class TripsActivity extends AppCompatActivity {
         //TODO CALL GET TRIPS RETROFIT - INSERT TO TRIPS LIST
         trips = new ArrayList<>();
         setTripInfo();
-        setAdapter();
     }
     private void gotoCreateNewTripActivity() {
         Intent switchActivityIntent = new Intent(this, MakerActivity.class);
@@ -84,8 +94,31 @@ public class TripsActivity extends AppCompatActivity {
     }
 
     private void setTripInfo() {
-        trips.add(new Trip(1, "1", "New York Families Bus Trip",
-                "Times Square", "https://www.waze.com/ul?ll=40.75889500%2C-73.98513100&navigate=yes&zoom=17",
-                Date.valueOf("2022-04-09"), "This is a trip all over New York"));
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<ArrayList<Trip>> call;
+        call = apiInterface.getTrips();
+        call.enqueue(new Callback<ArrayList<Trip>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Trip>> call, Response<ArrayList<Trip>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    trips = response.body();
+                    progressBar.setVisibility(ProgressBar.INVISIBLE);
+                    setAdapter();
+                } else {
+                    // TODO Null response
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Trip>> call, Throwable t) {
+                // TODO Failure on API Call
+                System.out.println("setTripInfo API call failed!");
+                System.out.println(t.toString());
+            }
+        });
+//
+//        trips.add(new Trip(1, "1", "New York Families Bus Trip",
+//                "Times Square", "https://www.waze.com/ul?ll=40.75889500%2C-73.98513100&navigate=yes&zoom=17",
+//                Date.valueOf("2022-04-09"), "This is a trip all over New York"));
     }
 }

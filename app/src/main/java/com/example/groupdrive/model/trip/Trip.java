@@ -1,6 +1,8 @@
 package com.example.groupdrive.model.trip;
 
-import java.sql.Date;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,7 @@ public class Trip {
         return meetingPointWazeUrl;
     }
 
-    public Date getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
@@ -42,14 +44,32 @@ public class Trip {
         return participants;
     }
 
+    @SerializedName("tripID")
+    @Expose
     private int tripID;
+    @SerializedName("creatorGID")
+    @Expose
     private String creatorGID;
+    @SerializedName("title")
+    @Expose
     private String title;
+    @SerializedName("description")
+    @Expose
     private String description;
+    @SerializedName("meetingPoint")
+    @Expose
     private String meetingPoint;
+    @SerializedName("meetingPointWazeUrl")
+    @Expose
     private String meetingPointWazeUrl;
-    private Date dateTime;
+    @SerializedName("dateTime")
+    @Expose
+    private String dateTime;
+    @SerializedName("isTripToday")
+    @Expose
     private boolean isTripToday;
+    @SerializedName("participants")
+    @Expose
     private List<String> participants;
 
     public void setTripID(int tripID) {
@@ -76,7 +96,7 @@ public class Trip {
         this.meetingPointWazeUrl = meetingPointWazeUrl;
     }
 
-    public void setDateTime(Date dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 
@@ -88,7 +108,7 @@ public class Trip {
         this.participants = participants;
     }
 
-    public Trip(int tripID, String creatorGID, String title, String meetingPoint, String meetingPointWazeUrl, Date dateTime, String description) {
+    public Trip(int tripID, String creatorGID, String title, String meetingPoint, String meetingPointWazeUrl, String dateTime, String description) {
         this.tripID = tripID;
         this.creatorGID = creatorGID;
         this.title = title;
