@@ -59,7 +59,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
         String title = tripList.get(position).getTitle();
         String startPoint = tripList.get(position).getMeetingPoint();
-        String date = tripList.get(position).getDateTime();
+        String date = tripList.get(position).getDate();
         String creator = tripList.get(position).getCreatorGID();
         holder.tripTitleTextView.setText(title);
         holder.tripMeetingPointTextView.setText(startPoint);

@@ -59,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void gotoTripsActivity() {
+    private void gotoTripsActivity(String googleId) {
         Intent switchActivityIntent = new Intent(this, TripsActivity.class);
+        switchActivityIntent.putExtra("googleId", googleId);
         startActivity(switchActivityIntent);
     }
 
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    gotoTripsActivity();
+                    gotoTripsActivity(googleId);
                 } else {
                     // TODO Null response
                 }

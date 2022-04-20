@@ -84,6 +84,7 @@ public class TripsActivity extends AppCompatActivity {
     }
     private void gotoCreateNewTripActivity() {
         Intent switchActivityIntent = new Intent(this, MakerActivity.class);
+        switchActivityIntent.putExtra("googleId", getIntent().getExtras().getString("googleId"));
         startActivity(switchActivityIntent);
     }
     private void setAdapter() {

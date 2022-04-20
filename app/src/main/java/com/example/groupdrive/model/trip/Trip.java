@@ -8,7 +8,7 @@ import java.util.List;
 
 
 public class Trip {
-    public int getTripID() {
+    public String getTripID() {
         return tripID;
     }
 
@@ -32,8 +32,8 @@ public class Trip {
         return meetingPointWazeUrl;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getDate() {
+        return date;
     }
 
     public boolean isTripToday() {
@@ -46,7 +46,7 @@ public class Trip {
 
     @SerializedName("tripID")
     @Expose
-    private int tripID;
+    private String tripID;
     @SerializedName("creatorGID")
     @Expose
     private String creatorGID;
@@ -62,9 +62,9 @@ public class Trip {
     @SerializedName("meetingPointWazeUrl")
     @Expose
     private String meetingPointWazeUrl;
-    @SerializedName("dateTime")
+    @SerializedName("date")
     @Expose
-    private String dateTime;
+    private String date;
     @SerializedName("isTripToday")
     @Expose
     private boolean isTripToday;
@@ -72,7 +72,7 @@ public class Trip {
     @Expose
     private List<String> participants;
 
-    public void setTripID(int tripID) {
+    public void setTripID(String tripID) {
         this.tripID = tripID;
     }
 
@@ -96,8 +96,8 @@ public class Trip {
         this.meetingPointWazeUrl = meetingPointWazeUrl;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setDateTime(String date) {
+        this.date = date;
     }
 
     public void setTripToday(boolean tripToday) {
@@ -108,16 +108,28 @@ public class Trip {
         this.participants = participants;
     }
 
-    public Trip(int tripID, String creatorGID, String title, String meetingPoint, String meetingPointWazeUrl, String dateTime, String description) {
+    public Trip(String tripID, String creatorGID, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl, List<String> participants) {
         this.tripID = tripID;
         this.creatorGID = creatorGID;
         this.title = title;
         this.description = description;
-        this.dateTime = dateTime;
+        this.date = date;
         this.meetingPoint = meetingPoint;
         this.meetingPointWazeUrl = meetingPointWazeUrl;
         this.participants = new ArrayList<>();
-        this.participants.add(creatorGID);
+        for (int i = 0; i < participants.size(); i++) {
+            this.participants.add(participants.get(i));
+        }
+    }
+
+    public Trip(String tripID, String creatorGID, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl) {
+        this.tripID = tripID;
+        this.creatorGID = creatorGID;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.meetingPoint = meetingPoint;
+        this.meetingPointWazeUrl = meetingPointWazeUrl;
     }
 }
 
