@@ -59,15 +59,13 @@ public class MakerActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     goBackToTrips();
                 } else {
-                    // TODO Null response
+                    Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Trip> call, Throwable t) {
-                // TODO Failure on API Call
-                System.out.println("onCreateTrip API call failed!");
-                System.out.println(t.toString());
+                Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
