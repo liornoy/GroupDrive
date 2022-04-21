@@ -1,4 +1,8 @@
 package com.example.groupdrive.model.user;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
     public String getGoogleID() {
@@ -25,13 +29,19 @@ public class User {
         this.photoURL = photoURL;
     }
 
+    @SerializedName("googleID")
+    @Expose
     String googleID;
+    @SerializedName("name")
+    @Expose
     String name;
+    @SerializedName("photoURL")
+    @Expose
     String photoURL;
 
-    public User(String id, String name, String photo) {
-        googleID = id;
+    public User(String googleID, String name, String photoURL) {
+        this.googleID = googleID;
         this.name = name;
-        photoURL = photo;
+        this.photoURL = photoURL;
     }
 }

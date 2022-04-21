@@ -121,9 +121,5 @@ public class TripsActivity extends AppCompatActivity {
                 System.out.println(t.toString());
             }
         });
-//
-//        trips.add(new Trip(1, "1", "New York Families Bus Trip",
-//                "Times Square", "https://www.waze.com/ul?ll=40.75889500%2C-73.98513100&navigate=yes&zoom=17",
-//                Date.valueOf("2022-04-09"), "This is a trip all over New York"));
     }
 }
