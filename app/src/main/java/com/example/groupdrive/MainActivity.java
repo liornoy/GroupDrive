@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -112,15 +113,13 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     gotoTripsActivity(googleId);
                 } else {
-                    // TODO Null response
+                    Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                // TODO Failure on API Call
-                System.out.println("OnLogin API call failed!");
-                System.out.println(t.toString());
+                Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT).show();
             }
         });
     }

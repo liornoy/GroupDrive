@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -110,15 +111,13 @@ public class TripsActivity extends AppCompatActivity {
                     }
                     setAdapter();
                 } else {
-                    // TODO Null response
+                    Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<ArrayList<Trip>> call, Throwable t) {
-                // TODO Failure on API Call
-                System.out.println("setTripInfo API call failed!");
-                System.out.println(t.toString());
+                Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT).show();
             }
         });
     }
