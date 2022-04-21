@@ -11,13 +11,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groupdrive.R;
+import com.example.groupdrive.api.ApiClient;
+import com.example.groupdrive.api.ApiInterface;
 import com.example.groupdrive.model.trip.Trip;
+import com.example.groupdrive.model.user.User;
 import com.example.groupdrive.ui.fragments.MapsActivity;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.CountDownLatch;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyViewHolder> {
     private ArrayList<Trip> tripList;
+    private String username;
+
 
     public recyclerAdapter(ArrayList<Trip> tripsList) {
         this.tripList = tripsList;
@@ -60,11 +70,51 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         String title = tripList.get(position).getTitle();
         String startPoint = tripList.get(position).getMeetingPoint();
         String date = tripList.get(position).getDate();
-        String creator = tripList.get(position).getCreatorGID();
+        String creatorGID = tripList.get(position).getCreatorGID();
         holder.tripTitleTextView.setText(title);
         holder.tripMeetingPointTextView.setText(startPoint);
         holder.tripDateTextView.setText(date);
-        holder.creatorTextView.setText(creator);
+        getUserName(creatorGID);
+        holder.creatorTextView.setText(username);
+    }
+
+
+    public void getUserName(String userGID) {
+        final CountDownLatch latch = new CountDownLatch(1);
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+                    Call<User> call;
+                    String url = "api/users/" + userGID;
+                    call = apiInterface.getUser(url);
+                    Response<User> response = null;
+                    try {
+                        response = call.execute();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    if (response.isSuccessful() && response.body() != null) {
+                        User user = response.body();
+                        username = user.getName();
+                    } else {
+                        System.out.println("Bad Response");
+                    }
+                    latch.countDown();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
+
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
