@@ -14,6 +14,7 @@ import com.example.groupdrive.api.ApiClient;
 import com.example.groupdrive.api.ApiInterface;
 import com.example.groupdrive.model.trip.Trip;
 
+import java.io.IOException;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -44,15 +45,36 @@ public class MakerActivity extends AppCompatActivity {
             }
         });
     }
+    private String getCreator(String CreatorID){
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
+        String requestURL = "/api/users/"+CreatorID;
+        Call<String> call;
+        call = apiInterface.signIn(requestURL);
+        Response<String> response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("call.execute failed");
+            return "";
+        }
+        if (response.isSuccessful() && response.body() != null) {
+            System.out.println(response.body());
+           return response.body();
+        } else {
+            System.out.println("Bad Response");
+        }
+        return "";
+    }
     private void onCreateTrip(String title, String description, String dateTime, String meetingPoint, String meetingPointWazeUrl) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         String tripID = UUID.randomUUID().toString();
-        String creatorID = getIntent().getExtras().getString("googleId");
-        Trip newTrip = new Trip(tripID, creatorID, title, description, dateTime, meetingPoint, meetingPointWazeUrl);
+        String username = getIntent().getExtras().getString("username");
+        Trip newTrip = new Trip(tripID, username, title, description, dateTime, meetingPoint, meetingPointWazeUrl);
 
         Call<Trip> call;
-        call = apiInterface.postTrip(newTrip, creatorID);
+        call = apiInterface.postTrip(newTrip);
         call.enqueue(new Callback<Trip>() {
             @Override
             public void onResponse(Call<Trip> call, Response<Trip> response) {
@@ -73,7 +95,7 @@ public class MakerActivity extends AppCompatActivity {
     private void goBackToTrips() {
         Toast.makeText(this, "Trip Created Successfully!", Toast.LENGTH_SHORT).show();
         Intent switchActivityIntent = new Intent(this, TripsActivity.class);
-        switchActivityIntent.putExtra("googleId", getIntent().getExtras().getString("googleId"));
+        switchActivityIntent.putExtra("userID", getIntent().getExtras().getString("userID"));
         startActivity(switchActivityIntent);
     }
 }

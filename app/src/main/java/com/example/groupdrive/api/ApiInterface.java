@@ -13,11 +13,14 @@ import retrofit2.http.POST;
 import retrofit2.http.Url;
 
 public interface ApiInterface {
-    @POST("/api/users")
-    Call<User> postUser(@Body User user);
+    @POST
+    Call<String> signIn(@Url String url);
+
+    @POST
+    Call<String> signUp(@Url String url);
 
     @POST("/api/trips")
-    Call<Trip> postTrip(@Body Trip trip, @Header("google-id") String googleId);
+    Call<Trip> postTrip(@Body Trip trip);
 
     @GET("/api/trips")
     Call<ArrayList<Trip>> getTrips();

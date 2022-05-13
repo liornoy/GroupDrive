@@ -3,15 +3,19 @@ package com.example.groupdrive;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.groupdrive.api.ApiClient;
 import com.example.groupdrive.api.ApiInterface;
+import com.example.groupdrive.model.trip.Trip;
 import com.example.groupdrive.model.user.User;
 import com.example.groupdrive.ui.fragments.TripsActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -22,110 +26,94 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    int RC_SIGN_IN = 100;
-    private Button enterBtn;
+    private Button sign_in_button, sign_up_button;
+    private EditText sign_in_username, sign_in_password,
+                    sign_up_username, sign_up_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-        // Set the dimensions of the sign-in button.
-        SignInButton signInButton = findViewById(R.id.sign_in_button);
-        signInButton.setSize(SignInButton.SIZE_STANDARD);
+        sign_in_button = findViewById(R.id.signInBtn);
+        sign_up_button = findViewById(R.id.signUpBtn);
+        sign_in_username = findViewById(R.id.oldUsernameText);
+        sign_up_username = findViewById(R.id.newUsernameText);
+        sign_in_password = findViewById(R.id.oldPasswordText);
+        sign_up_password = findViewById(R.id.newPasswordText);
 
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .build();
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if (account != null) {
-            onLogin(account);
-        }
-        findViewById(R.id.sign_in_button).setOnClickListener(new View.OnClickListener() {
+        sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn(mGoogleSignInClient);
+                onSignIn();
+            }
+        });
+        sign_up_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSignUp();
             }
         });
     }
-
-    private void gotoTripsActivity(String googleId) {
-        Intent switchActivityIntent = new Intent(this, TripsActivity.class);
-        switchActivityIntent.putExtra("googleId", googleId);
-        startActivity(switchActivityIntent);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount acct = completedTask.getResult(ApiException.class);
-
-            // Signed in successfully, show authenticated UI.
-            // TODO: CALL POST API/USERS
-            onLogin(acct);
-
-        } catch (ApiException e) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.d("signInResult:failed code=", e.toString());
-            //gotoTripsActivity();
-        }
-    }
-
-    private void onLogin(GoogleSignInAccount acct) {
+    private void onSignUp(){
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        String userName = acct.getDisplayName();
-        String googleId = acct.getId();
-        Uri personPhoto = acct.getPhotoUrl();
-        String photoURL = "";
-        if (personPhoto != null) {
-            photoURL = personPhoto.toString();
+        String username = sign_up_username.getText().toString();
+        String password = sign_up_password.getText().toString();
+        String requestURL = "/api/users/sign-up/"+username+"/"+password;
+        Call<String> call;
+        call = apiInterface.signIn(requestURL);
+        Response<String> response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("call.execute failed");
+            return;
         }
-        User user = new User(googleId, userName, photoURL);
-        Call<User> call;
-        call = apiInterface.postUser(user);
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if (response.isSuccessful()) {
-                    gotoTripsActivity(googleId);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "Connection to server failed", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (response.isSuccessful() && response.body() != null) {
+            System.out.println(response.body());
+            gotoTripsActivity(username);
+        } else {
+            System.out.println("Bad Response");
+        }
     }
 
-    private void signIn(GoogleSignInClient mGoogleSignInClient) {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+    private void onSignIn(){
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        String username = sign_in_username.getText().toString();
+        String password = sign_in_password.getText().toString();
+        String requestURL = "/api/users/sign-in/"+username+"/"+password;
+        Call<String> call;
+        call = apiInterface.signIn(requestURL);
+        Response<String> response = null;
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("call.execute failed");
+            return;
+        }
+        if (response.isSuccessful() && response.body() != null) {
+            System.out.println(response.body());
+            gotoTripsActivity(username);
+        } else {
+            System.out.println("Bad Response");
+        }
+    }
+
+    private void gotoTripsActivity(String username) {
+        Intent switchActivityIntent = new Intent(this, TripsActivity.class);
+        switchActivityIntent.putExtra("username", username);
+        startActivity(switchActivityIntent);
     }
 }
