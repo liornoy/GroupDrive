@@ -17,6 +17,7 @@ import com.example.groupdrive.model.trip.Trip;
 import com.example.groupdrive.model.user.User;
 import com.example.groupdrive.ui.fragments.MapsActivity;
 
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
