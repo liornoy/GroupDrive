@@ -32,8 +32,6 @@ import retrofit2.Response;
 public class TripsActivity extends AppCompatActivity {
     private ArrayList<Trip> trips;
     private RecyclerView recyclerView;
-    private Button joinTripBtn;
-    private Button join2TripBtn;
     private Button createNewTripBtn;
     private ProgressBar progressBar;
     private TextView noTripsTextView;
@@ -59,33 +57,13 @@ public class TripsActivity extends AppCompatActivity {
                 gotoCreateNewTripActivity();
             }
         });
-        joinTripBtn = findViewById(R.id.JoinTripBtn);
-        join2TripBtn = findViewById(R.id.joinBtn);
-        joinTripBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // inflate the layout of the popup window
-                LayoutInflater inflater = (LayoutInflater)
-                        getSystemService(LAYOUT_INFLATER_SERVICE);
-                View popupView = inflater.inflate(R.layout.join_trip, null);
-                // create the popup window
-                int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                boolean focusable = true; // lets taps outside the popup also dismiss it
-                final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-                // show the popup window
-                // which view you pass in doesn                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         't matter, it is only used for the window tolken
-                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
-            }
-        });
         recyclerView = findViewById(R.id.recyclerView);
         trips = new ArrayList<>();
         setTripInfo();
     }
     private void gotoCreateNewTripActivity() {
         Intent switchActivityIntent = new Intent(this, MakerActivity.class);
-        switchActivityIntent.putExtra("googleId", getIntent().getExtras().getString("googleId"));
+        switchActivityIntent.putExtra("username", getIntent().getExtras().getString("username"));
         startActivity(switchActivityIntent);
     }
     private void setAdapter() {

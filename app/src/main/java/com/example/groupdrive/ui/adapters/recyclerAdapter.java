@@ -70,52 +70,51 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         String title = tripList.get(position).getTitle();
         String startPoint = tripList.get(position).getMeetingPoint();
         String date = tripList.get(position).getDate();
-        String creatorGID = tripList.get(position).getCreatorGID();
+        String creator = tripList.get(position).getCreator();
         holder.tripTitleTextView.setText(title);
         holder.tripMeetingPointTextView.setText(startPoint);
         holder.tripDateTextView.setText(date);
-        getUserName(creatorGID);
-        holder.creatorTextView.setText(username);
+        holder.creatorTextView.setText(creator);
     }
 
 
-    public void getUserName(String userGID) {
-        final CountDownLatch latch = new CountDownLatch(1);
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-                    Call<User> call;
-                    String url = "api/users/" + userGID;
-                    call = apiInterface.getUser(url);
-                    Response<User> response = null;
-                    try {
-                        response = call.execute();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    if (response.isSuccessful() && response.body() != null) {
-                        User user = response.body();
-                        username = user.getName();
-                    } else {
-                        System.out.println("Bad Response");
-                    }
-                    latch.countDown();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
-
-        try {
-            latch.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void getUserName(String userGID) {
+//        final CountDownLatch latch = new CountDownLatch(1);
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+//                    Call<User> call;
+//                    String url = "api/users/" + userGID;
+//                    call = apiInterface.getUser(url);
+//                    Response<User> response = null;
+//                    try {
+//                        response = call.execute();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                    if (response.isSuccessful() && response.body() != null) {
+//                        User user = response.body();
+//                        username = user.getName();
+//                    } else {
+//                        System.out.println("Bad Response");
+//                    }
+//                    latch.countDown();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        thread.start();
+//
+//        try {
+//            latch.await();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public int getItemCount() {

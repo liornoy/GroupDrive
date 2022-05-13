@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/drawable/layout_border.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.2586050724637681" />
         <entry key="app/src/main/res/layout/join_trip.xml" value="0.25" />
         <entry key="app/src/main/res/layout/pending_trips.xml" value="0.5" />
         <entry key="app/src/main/res/layout/trip_details.xml" value="0.33" />

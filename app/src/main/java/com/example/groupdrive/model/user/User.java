@@ -5,43 +5,43 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
-    public String getGoogleID() {
-        return googleID;
-    }
-
-    public void setGoogleID(String googleID) {
-        this.googleID = googleID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhotoURL() {
-        return photoURL;
-    }
-
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
-    }
-
-    @SerializedName("googleID")
+    @SerializedName("userID")
     @Expose
-    String googleID;
-    @SerializedName("name")
+    String userID;
+    @SerializedName("username")
     @Expose
-    String name;
-    @SerializedName("photoURL")
+    String username;
+    @SerializedName("password")
     @Expose
-    String photoURL;
+    String password;
 
-    public User(String googleID, String name, String photoURL) {
-        this.googleID = googleID;
-        this.name = name;
-        this.photoURL = photoURL;
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public User(String userID, String username, String password) {
+        this.userID = userID;
+        this.password = password;
+        this.username = username;
     }
 }

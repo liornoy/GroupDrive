@@ -12,8 +12,8 @@ public class Trip {
         return tripID;
     }
 
-    public String getCreatorGID() {
-        return creatorGID;
+    public String getCreator() {
+        return creator;
     }
 
     public String getTitle() {
@@ -47,9 +47,9 @@ public class Trip {
     @SerializedName("tripID")
     @Expose
     private String tripID;
-    @SerializedName("creatorGID")
+    @SerializedName("creator")
     @Expose
-    private String creatorGID;
+    private String creator;
     @SerializedName("title")
     @Expose
     private String title;
@@ -76,8 +76,8 @@ public class Trip {
         this.tripID = tripID;
     }
 
-    public void setCreatorGID(String creatorGID) {
-        this.creatorGID = creatorGID;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     public void setTitle(String title) {
@@ -108,9 +108,9 @@ public class Trip {
         this.participants = participants;
     }
 
-    public Trip(String tripID, String creatorGID, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl, List<String> participants) {
+    public Trip(String tripID, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl, List<String> participants) {
         this.tripID = tripID;
-        this.creatorGID = creatorGID;
+        this.creator = creator;
         this.title = title;
         this.description = description;
         this.date = date;
@@ -122,9 +122,9 @@ public class Trip {
         }
     }
 
-    public Trip(String tripID, String creatorGID, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl) {
+    public Trip(String tripID, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl) {
         this.tripID = tripID;
-        this.creatorGID = creatorGID;
+        this.creator = creator;
         this.title = title;
         this.description = description;
         this.date = date;
