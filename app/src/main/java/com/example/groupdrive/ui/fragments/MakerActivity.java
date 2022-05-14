@@ -45,28 +45,7 @@ public class MakerActivity extends AppCompatActivity {
             }
         });
     }
-    private String getCreator(String CreatorID){
-        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
 
-        String requestURL = "/api/users/"+CreatorID;
-        Call<String> call;
-        call = apiInterface.signIn(requestURL);
-        Response<String> response = null;
-        try {
-            response = call.execute();
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("call.execute failed");
-            return "";
-        }
-        if (response.isSuccessful() && response.body() != null) {
-            System.out.println(response.body());
-           return response.body();
-        } else {
-            System.out.println("Bad Response");
-        }
-        return "";
-    }
     private void onCreateTrip(String title, String description, String dateTime, String meetingPoint, String meetingPointWazeUrl) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         String tripID = UUID.randomUUID().toString();

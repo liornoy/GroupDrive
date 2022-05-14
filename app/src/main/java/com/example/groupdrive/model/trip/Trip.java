@@ -98,7 +98,6 @@ public class Trip {
 
     public boolean isUserJoined(String username){
         for (int i=0; i<participants.size(); i++){
-            System.out.println(participants.get(i));
             if (participants.get(i).toString().equals(username)){
                 return true;
             }

@@ -46,12 +46,6 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
             tripMeetingPointTextView = view.findViewById(R.id.TripMeetingPointTextView);
             tripDateTextView = view.findViewById(R.id.TripDateTextView);
             liveTripBtn = view.findViewById(R.id.liveTripBtn);
-            liveTripBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    gotoMaps(view);
-                } //TODO: OnJoinTrip
-            });
             joinTripBtn = view.findViewById(R.id.joinTripBtn);
         }
     }
@@ -63,8 +57,10 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         return new MyViewHolder(itemView);
     }
 
-    private void gotoMaps(View view) {
+    private void gotoMaps(View view,String tripID) {
         Intent switchActivityIntent = new Intent(view.getContext(), MapsActivity.class);
+        switchActivityIntent.putExtra("tripID", tripID);
+        switchActivityIntent.putExtra("username", this.username);
         view.getContext().startActivity(switchActivityIntent);
     }
     private void reload(){
@@ -90,7 +86,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
         String tripID = tripList.get(position).getId();
-        System.out.println("TRIP ID::: " +tripID);
+        holder.liveTripBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gotoMaps(view,tripID);
+            } //TODO: OnJoinTrip
+        });
         holder.joinTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,9 +123,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         holder.tripMeetingPointTextView.setText(startPoint);
         holder.tripDateTextView.setText(date);
         holder.creatorTextView.setText(creator);
-        System.out.println("username: "+username);
         boolean isUserJoined = tripList.get(position).isUserJoined(username);
-        System.out.println("isUserJoined: "+isUserJoined);
         if (isUserJoined){
             holder.joinTripBtn.setText("Leave");
         }
