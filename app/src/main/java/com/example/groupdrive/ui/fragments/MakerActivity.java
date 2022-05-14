@@ -95,7 +95,7 @@ public class MakerActivity extends AppCompatActivity {
     private void goBackToTrips() {
         Toast.makeText(this, "Trip Created Successfully!", Toast.LENGTH_SHORT).show();
         Intent switchActivityIntent = new Intent(this, TripsActivity.class);
-        switchActivityIntent.putExtra("userID", getIntent().getExtras().getString("userID"));
+        switchActivityIntent.putExtra("username", getIntent().getExtras().getString("username"));
         startActivity(switchActivityIntent);
     }
 }

@@ -22,6 +22,9 @@ public interface ApiInterface {
     @POST("/api/trips")
     Call<Trip> postTrip(@Body Trip trip);
 
+    @POST
+    Call<String> joinTrip(@Url String url, @Header("username") String username);
+
     @GET("/api/trips")
     Call<ArrayList<Trip>> getTrips();
 
