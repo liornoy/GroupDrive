@@ -14,10 +14,17 @@ import android.location.Location;
 import android.location.LocationRequest;
 import android.os.Bundle;
 import android.os.Looper;
+import android.os.StrictMode;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.groupdrive.R;
+import com.example.groupdrive.api.ApiClient;
+import com.example.groupdrive.api.ApiInterface;
 import com.example.groupdrive.databinding.ActivityMapsBinding;
+import com.example.groupdrive.model.GPSLocation.GPSLocation;
+import com.example.groupdrive.model.trip.Trip;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
@@ -34,9 +41,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.groupdrive.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+import java.io.IOException;
+import java.util.ArrayList;
 
-    private Marker marker;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private String username, tripID;
+    private ArrayList<Marker> markers;
+    private Marker userMarker;
     private GoogleMap mMap;
     private Location mLocation;
     private LocationCallback locationCallback;
@@ -46,27 +61,99 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //private FusedLocationProviderClient fusedLocationClient;
     private FusedLocationProviderClient fusedLocationClient;
 
+
+    private void updateBEUSerLocation(GPSLocation gpsLocation){
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<String> call;
+        String url = "/api/trips/"+ tripID+"/update-coordinates";
+        call = apiInterface.updateGPS(url,username, gpsLocation);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Failed to update user location", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "Failed to update user location", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private ArrayList<GPSLocation> getTripGPSLocations(){
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<ArrayList<GPSLocation>> call;
+        Response<ArrayList<GPSLocation>> response;
+        String url = "/api/trips/"+tripID+"/get-coordinates";
+        call = apiInterface.getLocations(url);
+        try {
+            response = call.execute();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("call.execute failed");
+            return null;
+        }
+        if (response.isSuccessful() && response.body() != null) {
+            return response.body();
+        } else {
+            System.out.println("Bad Response");
+        }
+        return null;
+    }
+
+    // Stop the FE from sending API requests when the user exit the live trip window.
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (fusedLocationClient != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (fusedLocationClient != null) {
+            startLocationUpdates();
+        }
+    }
+
+    private void updateMarkers(ArrayList<GPSLocation>locations){
+        for (GPSLocation l : locations){
+            if (l.getUser().equals(username)){
+                continue;
+            }
+            updateUserLocationOnMap(l);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        marker = null;
+        markers = new ArrayList<>();
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
+        username = getIntent().getExtras().getString("username");
+        tripID = getIntent().getExtras().getString("tripID");
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
                     return;
                 }
-                Toast.makeText(MapsActivity.this, "Location updated by device! ", Toast.LENGTH_LONG).show();
+                Toast.makeText(MapsActivity.this, "Location updated by device!", Toast.LENGTH_LONG).show();
+                Location location = locationResult.getLastLocation();
                 updateUserLocationOnMap(locationResult.getLastLocation());
+                //updateUserLocationOnMap(location);
+                updateBEUSerLocation(new GPSLocation(location.getLongitude(),location.getLongitude()));
+                ArrayList<GPSLocation> locations = getTripGPSLocations();
+                updateMarkers(locations);
             }
         };
-
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -93,23 +180,35 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
+
     public void updateUserLocationOnMap(Location location) {
-        if (marker == null)
+        if (userMarker == null)
         {
-            marker = mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("You"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+            userMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("You"));
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(userMarker.getPosition()));
         }
         else
         {
-            double updatedBearing = bearing(marker.getPosition().latitude, marker.getPosition().latitude, location.getLatitude(), location.getLongitude());
-            marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+            double updatedBearing = bearing(userMarker.getPosition().latitude, userMarker.getPosition().latitude, location.getLatitude(), location.getLongitude());
+            userMarker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
 
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
                     new LatLng(location.getLatitude(), location.getLongitude()), 20.0f, 0, (float)updatedBearing
             )));
         }
         //need to change maps camera BEARING! to keep aligned with the moving user
+    }
 
+
+    public void updateUserLocationOnMap(GPSLocation location) {
+        for (Marker m : markers) {
+            if (m.getTitle().equals(location.getUser())) {
+                m.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+                return;
+            }
+            }
+        Marker newMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title(location.getUser()));
+        markers.add(newMarker);
     }
 
     public void getLastKnownLocation()
@@ -153,7 +252,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void setLocationSettings()
     {
         locationRequest = com.google.android.gms.location.LocationRequest.create();
-        locationRequest.setInterval(1000); //in milliseconds
+        locationRequest.setInterval(5000); //in milliseconds
+        locationRequest.setFastestInterval(5000);
         locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         //optional - get users location settings and if needed prompt him to change them.

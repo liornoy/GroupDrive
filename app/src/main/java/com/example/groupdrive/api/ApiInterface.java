@@ -1,5 +1,6 @@
 package com.example.groupdrive.api;
 
+import com.example.groupdrive.model.GPSLocation.GPSLocation;
 import com.example.groupdrive.model.trip.Trip;
 import com.example.groupdrive.model.user.User;
 
@@ -28,6 +29,9 @@ public interface ApiInterface {
     @GET("/api/trips")
     Call<ArrayList<Trip>> getTrips();
 
-    @GET
-    Call<User> getUser(@Url String url);
+    @POST
+    Call<ArrayList<GPSLocation>>getLocations(@Url String url);
+
+    @POST
+    Call<String> updateGPS(@Url String url, @Header("username") String username, @Body GPSLocation gpsLocation);
 }

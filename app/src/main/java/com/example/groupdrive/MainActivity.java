@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (response.isSuccessful() && response.body() != null) {
-            System.out.println(response.body());
             gotoTripsActivity(username);
         } else {
             System.out.println("Bad Response");
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         if (response.isSuccessful() && response.body() != null) {
-            System.out.println(response.body());
             gotoTripsActivity(username);
         } else {
             System.out.println("Bad Response");
