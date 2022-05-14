@@ -189,5 +189,4 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         return (Math.toDegrees(Math.atan2(y, x)) + 360) % 360;
     }
-
 }

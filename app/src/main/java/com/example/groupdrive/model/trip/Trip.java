@@ -8,8 +8,8 @@ import java.util.List;
 
 
 public class Trip {
-    public String getTripID() {
-        return tripID;
+    public String getId() {
+        return _id;
     }
 
     public String getCreator() {
@@ -44,9 +44,9 @@ public class Trip {
         return participants;
     }
 
-    @SerializedName("tripID")
+    @SerializedName("_id")
     @Expose
-    private String tripID;
+    private String _id;
     @SerializedName("creator")
     @Expose
     private String creator;
@@ -72,8 +72,8 @@ public class Trip {
     @Expose
     private List<String> participants;
 
-    public void setTripID(String tripID) {
-        this.tripID = tripID;
+    public void setId(String _id) {
+        this._id = _id;
     }
 
     public void setCreator(String creator) {
@@ -96,6 +96,22 @@ public class Trip {
         this.meetingPointWazeUrl = meetingPointWazeUrl;
     }
 
+    public boolean isUserJoined(String username){
+        for (int i=0; i<participants.size(); i++){
+            System.out.println(participants.get(i));
+            if (participants.get(i).toString().equals(username)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addUser(String username){
+        if (!isUserJoined(username)){
+            participants.add(username);
+        }
+    }
+
     public void setDateTime(String date) {
         this.date = date;
     }
@@ -108,8 +124,8 @@ public class Trip {
         this.participants = participants;
     }
 
-    public Trip(String tripID, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl, List<String> participants) {
-        this.tripID = tripID;
+    public Trip(String _id, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl, List<String> participants) {
+        this._id = _id;
         this.creator = creator;
         this.title = title;
         this.description = description;
@@ -122,8 +138,8 @@ public class Trip {
         }
     }
 
-    public Trip(String tripID, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl) {
-        this.tripID = tripID;
+    public Trip(String _id, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl) {
+        this._id = _id;
         this.creator = creator;
         this.title = title;
         this.description = description;
