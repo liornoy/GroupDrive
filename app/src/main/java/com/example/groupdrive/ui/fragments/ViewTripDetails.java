@@ -2,7 +2,9 @@ package com.example.groupdrive.ui.fragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,6 +27,13 @@ public class ViewTripDetails extends AppCompatActivity {
         location_tv.setText(getIntent().getExtras().getString("tripLocation"));
         creator_tv.setText(getIntent().getExtras().getString("tripCreator"));
         Button creator_page_btn = findViewById(R.id.creator_page_btn);
-
+        creator_page_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent switchActivityIntent = new Intent(v.getContext(), TripsActivity.class);
+                switchActivityIntent.putExtra("creator", creator_tv.getText());
+                v.getContext().startActivity(switchActivityIntent);
+            }
+        });
     }
 }
