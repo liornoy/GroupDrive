@@ -35,17 +35,21 @@ public class TripsActivity extends AppCompatActivity {
     private Button createNewTripBtn;
     private ProgressBar progressBar;
     private TextView noTripsTextView;
-
-    public void addNewTrip(Trip trip) {
-        trips.add(trip);
-    }
+    private String creator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.pending_trips);
-
+        creator = getIntent().getExtras().getString("creator");
+        if (creator != null){
+            TextView title = findViewById(R.id.trips_title);
+            title.setText(creator+"'s Trips");
+        } else{
+            TextView title = findViewById(R.id.trips_title);
+            title.setText("Pending Trips");
+        }
         noTripsTextView = findViewById(R.id.textView2);
         noTripsTextView.setVisibility(View.INVISIBLE);
         progressBar = findViewById(R.id.progressBar);
@@ -77,7 +81,7 @@ public class TripsActivity extends AppCompatActivity {
     private void setTripInfo() {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ArrayList<Trip>> call;
-        call = apiInterface.getTrips();
+        call = apiInterface.getTrips(creator);
         call.enqueue(new Callback<ArrayList<Trip>>() {
             @Override
             public void onResponse(Call<ArrayList<Trip>> call, Response<ArrayList<Trip>> response) {

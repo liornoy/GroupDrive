@@ -27,7 +27,7 @@ public interface ApiInterface {
     Call<String> joinTrip(@Url String url, @Header("username") String username);
 
     @GET("/api/trips")
-    Call<ArrayList<Trip>> getTrips();
+    Call<ArrayList<Trip>> getTrips(@Header("creator") String creator);
 
     @POST
     Call<ArrayList<GPSLocation>>getLocations(@Url String url);
