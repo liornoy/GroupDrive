@@ -17,6 +17,7 @@ import com.example.groupdrive.api.ApiClient;
 import com.example.groupdrive.api.ApiInterface;
 import com.example.groupdrive.model.trip.Trip;
 import com.example.groupdrive.ui.fragments.MapsActivity;
+import com.example.groupdrive.ui.fragments.ViewTripDetails;
 
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
             tripDateTextView = view.findViewById(R.id.TripDateTextView);
             liveTripBtn = view.findViewById(R.id.liveTripBtn);
             joinTripBtn = view.findViewById(R.id.joinTripBtn);
+            detailsTripBtn = view.findViewById(R.id.detailsTripBtn);
         }
     }
 
@@ -61,6 +63,16 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         Intent switchActivityIntent = new Intent(view.getContext(), MapsActivity.class);
         switchActivityIntent.putExtra("tripID", tripID);
         switchActivityIntent.putExtra("username", this.username);
+        view.getContext().startActivity(switchActivityIntent);
+    }
+    private void gotoTripDetails(View view, Trip trip){
+        Intent switchActivityIntent = new Intent(view.getContext(), ViewTripDetails.class);
+        switchActivityIntent.putExtra("tripTitle", trip.getTitle());
+        switchActivityIntent.putExtra("tripDesc", trip.getDescription());
+        switchActivityIntent.putExtra("tripDate", trip.getDate());
+        switchActivityIntent.putExtra("tripLocation", trip.getMeetingPoint());
+        switchActivityIntent.putExtra("tripWazeLink", trip.getMeetingPointWazeUrl());
+        switchActivityIntent.putExtra("tripCreator",trip.getCreator());
         view.getContext().startActivity(switchActivityIntent);
     }
     private void reload(){
@@ -90,7 +102,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
             @Override
             public void onClick(View view) {
                 gotoMaps(view,tripID);
-            } //TODO: OnJoinTrip
+            }
         });
         holder.joinTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +125,12 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
                 } else {
                     System.out.println("Bad Response");
                 }
+            }
+        });
+        holder.detailsTripBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoTripDetails(v,tripList.get(position));
             }
         });
         String title = tripList.get(position).getTitle();
