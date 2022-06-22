@@ -73,6 +73,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         switchActivityIntent.putExtra("tripLocation", trip.getMeetingPoint());
         switchActivityIntent.putExtra("tripWazeLink", trip.getMeetingPointWazeUrl());
         switchActivityIntent.putExtra("tripCreator",trip.getCreator());
+        switchActivityIntent.putExtra("username", this.username);
         view.getContext().startActivity(switchActivityIntent);
     }
     private void reload(){
