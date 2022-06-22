@@ -32,6 +32,7 @@ public class ViewTripDetails extends AppCompatActivity {
             public void onClick(View v) {
                 Intent switchActivityIntent = new Intent(v.getContext(), TripsActivity.class);
                 switchActivityIntent.putExtra("creator", creator_tv.getText());
+                switchActivityIntent.putExtra("username", getIntent().getExtras().getString("username"));
                 v.getContext().startActivity(switchActivityIntent);
             }
         });
