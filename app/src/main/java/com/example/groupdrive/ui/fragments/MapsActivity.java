@@ -15,6 +15,7 @@ import android.location.LocationRequest;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -60,7 +61,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ActivityResultLauncher<String> requestPermissionLauncher;
     //private FusedLocationProviderClient fusedLocationClient;
     private FusedLocationProviderClient fusedLocationClient;
-
+    public static final String TAG = "DEBUG"; //tag for logcat
 
     private void updateBEUSerLocation(GPSLocation gpsLocation){
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
@@ -81,6 +82,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
     private ArrayList<GPSLocation> getTripGPSLocations(){
+        Log.d(TAG, "getTripsGPSLocations called...");
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ArrayList<GPSLocation>> call;
         Response<ArrayList<GPSLocation>> response;
@@ -91,13 +93,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("call.execute failed");
+            Log.d(TAG, "call.execute failed...");
+            Log.d(TAG, "getTripsGPSLocations finished...");
             return null;
         }
         if (response.isSuccessful() && response.body() != null) {
+            Log.d(TAG, "getTripsGPSLocations got the following locations from server:");
+            for(int i = 0; i < response.body().size(); i++)
+                Log.d(TAG, response.body().get(i).getUser() + ", latitude: " + response.body().get(i).getLatitude() + ",longitude: " + response.body().get(i).getLongitude());
+
+
+            Log.d(TAG, "getTripsGPSLocations finished...");
             return response.body();
         } else {
+            Log.d(TAG, "Bad Response...");
             System.out.println("Bad Response");
         }
+        Log.d(TAG, "getTripsGPSLocations finished unsuccessfully...");
         return null;
     }
 
@@ -149,7 +161,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Location location = locationResult.getLastLocation();
                 updateUserLocationOnMap(locationResult.getLastLocation());
                 //updateUserLocationOnMap(location);
-                updateBEUSerLocation(new GPSLocation(location.getLongitude(),location.getLongitude()));
+                updateBEUSerLocation(new GPSLocation(location.getLongitude(),location.getLatitude()));
                 ArrayList<GPSLocation> locations = getTripGPSLocations();
                 if (locations != null){
                 updateMarkers(locations);
@@ -182,7 +194,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-
     public void updateUserLocationOnMap(Location location) {
         if (userMarker == null)
         {
@@ -198,6 +209,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     new LatLng(location.getLatitude(), location.getLongitude()), 20.0f, 0, (float)updatedBearing
             )));
         }
+        Log.d(TAG, "Updated user location on map.");
         //need to change maps camera BEARING! to keep aligned with the moving user
     }
 
