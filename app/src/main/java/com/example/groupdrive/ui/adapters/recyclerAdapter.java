@@ -79,7 +79,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ArrayList<Trip>> call;
         Response<ArrayList<Trip>> response;
-        call = apiInterface.getTrips("");
+        call = apiInterface.getTrips(null);
         try {
             response = call.execute();
         } catch (IOException e) {
