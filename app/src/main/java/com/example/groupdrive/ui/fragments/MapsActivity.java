@@ -151,7 +151,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //updateUserLocationOnMap(location);
                 updateBEUSerLocation(new GPSLocation(location.getLongitude(),location.getLongitude()));
                 ArrayList<GPSLocation> locations = getTripGPSLocations();
+                if (locations != null){
                 updateMarkers(locations);
+                }
             }
         };
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.

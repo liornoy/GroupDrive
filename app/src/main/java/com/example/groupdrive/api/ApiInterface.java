@@ -29,7 +29,7 @@ public interface ApiInterface {
     @GET("/api/trips")
     Call<ArrayList<Trip>> getTrips(@Header("creator") String creator);
 
-    @POST
+    @GET
     Call<ArrayList<GPSLocation>>getLocations(@Url String url);
 
     @POST
