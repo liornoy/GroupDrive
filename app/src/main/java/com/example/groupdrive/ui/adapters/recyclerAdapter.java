@@ -30,11 +30,13 @@ import retrofit2.Response;
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyViewHolder> {
     private ArrayList<Trip> tripList;
     private String username;
+    private String creator;
 
 
-    public recyclerAdapter(ArrayList<Trip> tripsList, String username) {
+    public recyclerAdapter(ArrayList<Trip> tripsList, String username, String creator) {
         this.tripList = tripsList;
         this.username = username;
+        this.creator = creator;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -80,7 +82,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<ArrayList<Trip>> call;
         Response<ArrayList<Trip>> response;
-        call = apiInterface.getTrips(null);
+        call = apiInterface.getTrips(creator);
         try {
             response = call.execute();
         } catch (IOException e) {

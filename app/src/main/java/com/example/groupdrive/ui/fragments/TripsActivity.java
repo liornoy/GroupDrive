@@ -71,7 +71,7 @@ public class TripsActivity extends AppCompatActivity {
         startActivity(switchActivityIntent);
     }
     private void setAdapter() {
-        recyclerAdapter adapter = new recyclerAdapter(trips, getIntent().getExtras().getString("username"));
+        recyclerAdapter adapter = new recyclerAdapter(trips, getIntent().getExtras().getString("username"),getIntent().getExtras().getString("creator"));
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
