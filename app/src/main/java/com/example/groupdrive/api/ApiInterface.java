@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -25,6 +26,9 @@ public interface ApiInterface {
 
     @POST
     Call<String> joinTrip(@Url String url, @Header("username") String username);
+
+    @DELETE
+    Call<String> deleteTrip(@Url String url, @Header("username") String username);
 
     @GET("/api/trips")
     Call<ArrayList<Trip>> getTrips(@Header("creator") String creator);
