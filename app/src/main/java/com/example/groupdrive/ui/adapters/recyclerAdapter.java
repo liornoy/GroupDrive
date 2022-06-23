@@ -1,5 +1,7 @@
 package com.example.groupdrive.ui.adapters;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +28,9 @@ import java.util.ArrayList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+import android.util.Log;
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyViewHolder> {
+    public static final String TAG = "DEBUG"; //tag for logcat
     private ArrayList<Trip> tripList;
     private String username;
     private String creator;
@@ -41,7 +44,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tripTitleTextView, tripDateTextView, tripMeetingPointTextView, creatorTextView;
-        private Button joinTripBtn, detailsTripBtn, liveTripBtn;
+        private Button joinTripBtn, detailsTripBtn, liveTripBtn,delBtn;
         public MyViewHolder(final View view) {
             super(view);
             creatorTextView = view.findViewById(R.id.textView10);
@@ -51,6 +54,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
             liveTripBtn = view.findViewById(R.id.liveTripBtn);
             joinTripBtn = view.findViewById(R.id.joinTripBtn);
             detailsTripBtn = view.findViewById(R.id.detailsTripBtn);
+            delBtn = view.findViewById(R.id.trip_delete_btn);
         }
     }
 
@@ -144,6 +148,55 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         holder.tripMeetingPointTextView.setText(startPoint);
         holder.tripDateTextView.setText(date);
         holder.creatorTextView.setText(creator);
+        if (username.equals(creator)) {
+            holder.delBtn.setVisibility(View.VISIBLE);
+        } else{
+            holder.delBtn.setVisibility(View.INVISIBLE);
+        }
+        holder.delBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "user "+username+"clicked on delete trip: "+title);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+                                String requestURL = "/api/trips/"+tripID;
+                                Call<String> call;
+                                call = apiInterface.deleteTrip(requestURL,username);
+                                Response<String> response = null;
+                                try {
+                                    response = call.execute();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Log.d(TAG, "delete trip call.execute failed");
+                                    System.out.println("call.execute failed");
+                                    return;
+                                }
+                                if (response.isSuccessful() ) {
+                                    Log.d(TAG,"Deleted trip successfully!");
+                                    System.out.println("Deleted trip successfully!");
+                                    reload();
+                                } else {
+                                    Log.d(TAG,"Bad Response from delete trip call");
+                                    System.out.println("Bad Response");
+                                }
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            }
+        });
         boolean isUserJoined = tripList.get(position).isUserJoined(username);
         if (isUserJoined){
             holder.joinTripBtn.setText("Leave");

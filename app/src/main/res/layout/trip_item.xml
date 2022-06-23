@@ -80,7 +80,7 @@
         android:text="Live"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.856"
+        app:layout_constraintHorizontal_bias="0.822"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -121,5 +121,19 @@
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/TripDateTextView"
         app:layout_constraintVertical_bias="0.8" />
+
+    <Button
+        android:id="@+id/trip_delete_btn"
+        android:layout_width="42dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="180dp"
+        android:text="X"
+        android:textColor="#FF0000"
+        android:textColorHighlight="#DF0B0B"
+        android:textColorLink="#D60909"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/liveTripBtn"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="#E81919" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
