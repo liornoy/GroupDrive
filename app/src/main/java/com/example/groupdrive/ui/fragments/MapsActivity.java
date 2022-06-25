@@ -267,8 +267,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void setLocationSettings()
     {
         locationRequest = com.google.android.gms.location.LocationRequest.create();
-        locationRequest.setInterval(5000); //in milliseconds
-        locationRequest.setFastestInterval(5000);
+        locationRequest.setInterval(700); //in milliseconds
+        locationRequest.setFastestInterval(200);
         locationRequest.setPriority(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         //optional - get users location settings and if needed prompt him to change them.
