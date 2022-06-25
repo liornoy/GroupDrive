@@ -16,6 +16,7 @@ public class ViewTripDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_trip_details);
+        getSupportActionBar().hide();
         TextView title_tv = findViewById(R.id.details_trip_title);
         TextView description_tv = findViewById(R.id.details_trip_desc);
         TextView date_tv = findViewById(R.id.details_trip_date);
