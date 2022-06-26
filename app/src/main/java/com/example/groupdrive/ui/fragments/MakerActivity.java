@@ -33,8 +33,8 @@ public class MakerActivity extends AppCompatActivity {
         title = findViewById(R.id.tripTitleText);
         description = findViewById(R.id.tripDescText);
         date = findViewById(R.id.tripdate);
-        meetingPoint = findViewById(R.id.meetingPointText);
-        wazeUrl = findViewById(R.id.wazeUrlText);
+        meetingPoint = findViewById(R.id.maker_meeting_point);
+        wazeUrl = findViewById(R.id.maker_meeting_point_waze);
         createBtn = findViewById(R.id.createBtn);
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
