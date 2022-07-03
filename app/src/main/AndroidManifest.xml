@@ -20,9 +20,11 @@
         android:theme="@style/Theme.GroupDrive"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".SignupActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.fragments.ViewTripDetails"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".ui.fragments.MapsActivity"
             android:exported="false" />

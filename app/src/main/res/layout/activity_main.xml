@@ -4,109 +4,145 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:outlineAmbientShadowColor="#000000"
     tools:context=".MainActivity">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="150dp"
-        android:layout_height="55dp"
-        android:text="Welcome"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1" />
-
-    <TextView
-        android:id="@+id/signInTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="23dp"
-        android:text="Sign up"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/newUsernameText"
-        app:layout_constraintEnd_toEndOf="@+id/textView" />
 
     <TextView
         android:id="@+id/signUpTexView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="23dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="80dp"
         android:text="Sign In"
+        android:textColor="#000000"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/oldUsernameText"
-        app:layout_constraintEnd_toEndOf="@+id/oldUsernameText"
-        app:layout_constraintStart_toStartOf="@+id/oldUsernameText" />
-
-    <EditText
-        android:id="@+id/newPasswordText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="text|textPassword"
-        app:layout_constraintStart_toStartOf="@+id/newUsernameText"
-        app:layout_constraintTop_toBottomOf="@+id/newUsernameText" />
-
-    <EditText
-        android:id="@+id/oldPasswordText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:ems="10"
-        android:hint="password"
-        android:inputType="text|textPassword"
-        app:layout_constraintStart_toStartOf="@+id/oldUsernameText"
-        app:layout_constraintTop_toBottomOf="@+id/oldUsernameText" />
-
-    <EditText
-        android:id="@+id/newUsernameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
-        android:layout_marginBottom="153dp"
-        android:ems="10"
-        android:hint="username"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/signUpTexView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/oldUsernameText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
+        android:layout_width="244dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
-        android:hint="username"
+        android:hint="Username"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:outlineProvider="paddedBounds"
+        android:shadowColor="#000000"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTexView2" />
 
-    <Button
-        android:id="@+id/signUpBtn"
+    <TextView
+        android:id="@+id/signUpTexView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="20dp"
-        android:text="ok"
-        app:layout_constraintStart_toStartOf="@+id/signUpTexView"
-        app:layout_constraintTop_toBottomOf="@+id/newPasswordText" />
+        android:layout_marginStart="40dp"
+        android:text="Trip together - trip forever"
+        android:textColor="#686868"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTexView" />
+
+    <TextView
+        android:id="@+id/signUpTexView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="8dp"
+        android:text="or"
+        android:textColor="#686868"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/signInBtn" />
 
     <Button
         android:id="@+id/signInBtn"
+        android:layout_width="245dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:capitalize="words"
+        android:text="Sign in"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Button
+        android:id="@+id/signInBtn2"
+        android:layout_width="245dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:capitalize="words"
+        android:text="Sign in with Google"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorLink="#D31818"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/signUpTexView3" />
+
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:text="ok"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:text="Forgot password?"
+        android:textColor="#1583FA"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
         app:layout_constraintTop_toBottomOf="@+id/oldPasswordText" />
+
+    <EditText
+        android:id="@+id/oldPasswordText"
+        android:layout_width="245dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="text|textPassword"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/oldUsernameText" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="28dp"
+        android:text="New to GroupDrive?"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="@+id/guideline11"
+        app:layout_constraintTop_toBottomOf="@+id/signInBtn2" />
+
+    <TextView
+        android:id="@+id/gotosignup"
+        android:layout_width="78dp"
+        android:layout_height="17dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="28dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:text="Join now"
+        android:textColor="#1583FA"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView18"
+        app:layout_constraintTop_toBottomOf="@+id/signInBtn2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="368dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="41dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
