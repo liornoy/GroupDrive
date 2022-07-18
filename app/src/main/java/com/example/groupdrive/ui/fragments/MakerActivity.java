@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,18 +25,34 @@ import retrofit2.Response;
 
 public class MakerActivity extends AppCompatActivity {
     private Button createBtn;
-    private TextView title, description, meetingPoint, wazeUrl, date;
+    private TextView title, description, meetingPoint, wazeUrl, date,maxGroupSize;
+    private CheckBox limitCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.trip_maker);
         getSupportActionBar().hide();
+        maxGroupSize = findViewById(R.id.size_limit_edit_text);
+        limitCheckBox = findViewById(R.id.trip_limit_check_box);
+        limitCheckBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Checkbox is checked
+                if(((CompoundButton)v).isChecked()){
+                    maxGroupSize.setEnabled(true);
+                } else { // Checkbox is un-checked
+                    maxGroupSize.setEnabled(false);
+
+                }
+            }
+        });
         title = findViewById(R.id.tripTitleText);
         description = findViewById(R.id.tripDescText);
         date = findViewById(R.id.tripdate);
         meetingPoint = findViewById(R.id.maker_meeting_point);
         wazeUrl = findViewById(R.id.maker_meeting_point_waze);
+
         createBtn = findViewById(R.id.createBtn);
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,9 +66,18 @@ public class MakerActivity extends AppCompatActivity {
 
     private void onCreateTrip(String title, String description, String dateTime, String meetingPoint, String meetingPointWazeUrl) {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        int groupSizeLimit= -1;
         String tripID = UUID.randomUUID().toString();
         String username = getIntent().getExtras().getString("username");
-        Trip newTrip = new Trip(tripID, username, title, description, dateTime, meetingPoint, meetingPointWazeUrl);
+        if (limitCheckBox.isChecked()) {
+            if (maxGroupSize.getText().toString().length() > 0) {
+                groupSizeLimit = Integer.parseInt(maxGroupSize.getText().toString());
+            } else {
+                Toast.makeText(getApplicationContext(), "Create Trip failed. please enter group size limit!", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+        Trip newTrip = new Trip(tripID, username, title, description, dateTime, meetingPoint, meetingPointWazeUrl,groupSizeLimit,false);
 
         Call<Trip> call;
         call = apiInterface.postTrip(newTrip);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -159,6 +160,29 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <CheckBox
+        android:id="@+id/trip_limit_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Limit group size:"
+        android:textColor="#5C5B5B"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline9"
+        app:layout_constraintTop_toBottomOf="@+id/maker_meeting_point_waze" />
+
+    <EditText
+        android:id="@+id/size_limit_edit_text"
+        android:layout_width="76dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="numberSigned"
+        app:layout_constraintStart_toEndOf="@+id/trip_limit_check_box"
+        app:layout_constraintTop_toBottomOf="@+id/maker_meeting_point_waze" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

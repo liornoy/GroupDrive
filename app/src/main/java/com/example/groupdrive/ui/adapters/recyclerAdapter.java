@@ -43,10 +43,11 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView tripTitleTextView, tripDateTextView, tripMeetingPointTextView, creatorTextView;
+        private TextView tripTitleTextView, tripDateTextView, tripMeetingPointTextView, creatorTextView, participantsCount;
         private Button joinTripBtn, detailsTripBtn, liveTripBtn,delBtn;
         public MyViewHolder(final View view) {
             super(view);
+            participantsCount = view.findViewById(R.id.trip_participants_count);
             creatorTextView = view.findViewById(R.id.textView10);
             tripTitleTextView = view.findViewById(R.id.TripTitleTextView);
             tripMeetingPointTextView = view.findViewById(R.id.TripMeetingPointTextView);
@@ -140,11 +141,24 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
                 gotoTripDetails(v,tripList.get(position));
             }
         });
-        String title = tripList.get(position).getTitle();
-        String startPoint = tripList.get(position).getMeetingPoint();
-        String date = tripList.get(position).getDate();
-        String creator = tripList.get(position).getCreator();
+        Trip trip = tripList.get(position);
+        String title = trip.getTitle();
+        String startPoint = trip.getMeetingPoint();
+        String date = trip.getDate();
+        String creator = trip.getCreator();
         holder.tripTitleTextView.setText(title);
+        if (trip.getTripFull()==true){
+            holder.participantsCount.setText("TRIP IS FULL");
+
+        }
+        else {
+            if (trip.getMaxGroupSize() == -1){
+                holder.participantsCount.setText("unlimited");
+            }
+            else{
+            holder.participantsCount.setText(trip.getParticipants().size() + " out of " + trip.getMaxGroupSize());
+            }
+        }
         holder.tripMeetingPointTextView.setText(startPoint);
         holder.tripDateTextView.setText(date);
         holder.creatorTextView.setText(creator);
@@ -200,9 +214,21 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         boolean isUserJoined = tripList.get(position).isUserJoined(username);
         if (isUserJoined){
             holder.joinTripBtn.setText("Leave");
+            if (trip.getCreator().equals(username)){
+                holder.joinTripBtn.setAlpha(.5f);
+                holder.joinTripBtn.setClickable(false);
+            }
         }
         else{
             holder.joinTripBtn.setText("Join");
+            if (trip.getTripFull() == true) {
+                holder.joinTripBtn.setAlpha(.5f);
+                holder.joinTripBtn.setClickable(false);
+            }
+            else{
+                holder.joinTripBtn.setAlpha(1f);
+                holder.joinTripBtn.setClickable(true);
+            }
         }
         if (isUserJoined && tripList.get(position).isTripToday()){
             holder.liveTripBtn.setAlpha(1f);
