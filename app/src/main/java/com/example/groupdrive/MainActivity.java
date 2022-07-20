@@ -7,6 +7,7 @@ import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         if (response.isSuccessful() && response.body() != null) {
             gotoTripsActivity(username);
         } else {
+            Toast.makeText(getApplicationContext(), "Your username or password was incorrect", Toast.LENGTH_SHORT).show();
             System.out.println("Bad Response");
         }
     }

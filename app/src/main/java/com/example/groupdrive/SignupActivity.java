@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.groupdrive.api.ApiClient;
 import com.example.groupdrive.api.ApiInterface;
@@ -57,9 +58,10 @@ public class SignupActivity extends AppCompatActivity {
             return;
         }
         if (response.isSuccessful() && response.body() != null) {
+            Toast.makeText(getApplicationContext(), "Your account has been created!", Toast.LENGTH_SHORT).show();
             gotoTripsActivity(username);
         } else {
-            System.out.println("Bad Response");
+            Toast.makeText(getApplicationContext(), "The username is already exist!", Toast.LENGTH_SHORT).show();
         }
     }
 
