@@ -1,9 +1,12 @@
 package com.example.groupdrive;
 
+import static com.example.groupdrive.ui.fragments.MapsActivity.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +18,6 @@ import com.example.groupdrive.api.ApiClient;
 import com.example.groupdrive.api.ApiInterface;
 import com.example.groupdrive.ui.fragments.TripsActivity;
 
-
 import java.io.IOException;
 
 import retrofit2.Call;
@@ -24,7 +26,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     private Button sign_in_button;
     private EditText sign_in_username, sign_in_password;
-
+    private static final int RC_SIGN_IN = 9001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         sign_in_button = findViewById(R.id.signInBtn);
         sign_in_username = findViewById(R.id.oldUsernameText);
         sign_in_password = findViewById(R.id.oldPasswordText);
-
         sign_in_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             response = call.execute();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("call.execute failed");
+            Log.d(TAG,"call for /api/users/sign-in/ failed");
             return;
         }
         if (response.isSuccessful() && response.body() != null) {
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Your username or password was incorrect", Toast.LENGTH_SHORT).show();
             System.out.println("Bad Response");
+            Log.d(TAG,"call for /api/users/sign-in/ got bag response");
         }
     }
 
