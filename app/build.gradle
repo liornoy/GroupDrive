@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
-
 android {
     compileSdk 32
 
@@ -30,11 +29,13 @@ android {
         viewBinding true
     }
 }
+apply plugin: 'com.android.application'
 
 dependencies {
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+
     def room_version = "2.4.1"
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation "androidx.room:room-runtime:$room_version"
