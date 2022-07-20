@@ -44,6 +44,10 @@ public class Trip {
         return participants;
     }
 
+    public int getMaxGroupSize(){return maxGroupSize;}
+    public boolean getTripFull(){return tripFull;}
+
+
     @SerializedName("_id")
     @Expose
     private String _id;
@@ -71,7 +75,12 @@ public class Trip {
     @SerializedName("participants")
     @Expose
     private List<String> participants;
-
+    @SerializedName("maxGroupSize")
+    @Expose
+    private int maxGroupSize;
+    @SerializedName("tripFull")
+    @Expose
+    private boolean tripFull;
     public void setId(String _id) {
         this._id = _id;
     }
@@ -91,6 +100,10 @@ public class Trip {
     public void setMeetingPoint(String meetingPoint) {
         this.meetingPoint = meetingPoint;
     }
+
+    public void setMaxGroupSize(int maxGroupSize){this.maxGroupSize=maxGroupSize;}
+    public void setTripFull(boolean tripFull){this.tripFull=tripFull;}
+
 
     public void setMeetingPointWazeUrl(String meetingPointWazeUrl) {
         this.meetingPointWazeUrl = meetingPointWazeUrl;
@@ -123,7 +136,7 @@ public class Trip {
         this.participants = participants;
     }
 
-    public Trip(String _id, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl, List<String> participants) {
+    public Trip(String _id, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl, List<String> participants, int maxGroupSize, boolean tripFull) {
         this._id = _id;
         this.creator = creator;
         this.title = title;
@@ -135,9 +148,11 @@ public class Trip {
         for (int i = 0; i < participants.size(); i++) {
             this.participants.add(participants.get(i));
         }
+        this.maxGroupSize = maxGroupSize;
+        this.tripFull = tripFull;
     }
 
-    public Trip(String _id, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl) {
+    public Trip(String _id, String creator, String title, String description, String date, String meetingPoint, String meetingPointWazeUrl,int maxGroupSize,boolean tripFull) {
         this._id = _id;
         this.creator = creator;
         this.title = title;
@@ -145,6 +160,8 @@ public class Trip {
         this.date = date;
         this.meetingPoint = meetingPoint;
         this.meetingPointWazeUrl = meetingPointWazeUrl;
+        this.maxGroupSize = maxGroupSize;
+        this.tripFull = tripFull;
     }
 }
 
