@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="cream">#f7f0dc</color>
+    <color name="pitch_black">#000000</color>
     <color name="purple_200">#269e9e</color>
     <color name="purple_500">#269e9e</color>
     <color name="purple_700">#269e9e</color>
