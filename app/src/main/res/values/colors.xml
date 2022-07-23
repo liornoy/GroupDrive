@@ -12,4 +12,6 @@
     <color name="background">#d0f5ff</color>
     <color name="blueBlack">#111f28</color>
     <color name="tanAccent">#e3cdb3</color>
+    <color name="light_purple">#a360a8</color>
+
 </resources>

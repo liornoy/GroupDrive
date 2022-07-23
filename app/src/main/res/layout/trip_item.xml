@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="376dp"
         android:layout_height="295dp"
-        app:cardBackgroundColor="@color/blueBlack"
+        app:cardBackgroundColor="@color/tanAccent"
         app:cardCornerRadius="20dp"
         app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,8 +19,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="362dp"
-            android:layout_height="266dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <Button
                 android:id="@+id/trip_delete_btn"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/tanAccent"
+                android:textColor="@color/blueBlack"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/textView19"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
-                android:textColor="@color/tanAccent"
+                android:textColor="@color/blueBlack"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
@@ -67,7 +67,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:text="participants:"
-                android:textColor="@color/tanAccent"
+                android:textColor="@color/blueBlack"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +80,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:text="by:"
-                android:textColor="@color/tanAccent"
+                android:textColor="@color/blueBlack"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +126,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:singleLine="false"
-                android:textColor="@color/tanAccent"
+                android:textColor="@color/blueBlack"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TripTitleTextView" />
@@ -138,7 +138,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:singleLine="false"
-                android:textColor="@color/tanAccent"
+                android:textColor="@color/blueBlack"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -150,7 +150,7 @@
                 android:layout_marginTop="16dp"
                 android:gravity="center"
                 android:singleLine="false"
-                android:textColor="@color/tanAccent"
+                android:textColor="@color/blueBlack"
                 android:textSize="34sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
