@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="cream">#f7f0dc</color>
+    <color name="pitch_black">#000000</color>
     <color name="purple_200">#269e9e</color>
     <color name="purple_500">#269e9e</color>
     <color name="purple_700">#269e9e</color>
@@ -8,4 +10,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background">#d0f5ff</color>
+    <color name="blueBlack">#111f28</color>
+    <color name="tanAccent">#e3cdb3</color>
+    <color name="light_purple">#a360a8</color>
+
 </resources>
