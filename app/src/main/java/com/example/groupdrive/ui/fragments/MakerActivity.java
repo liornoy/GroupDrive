@@ -77,6 +77,9 @@ public class MakerActivity extends AppCompatActivity {
                 return;
             }
         }
+        if (title.equals("")) {
+            title = username+"'s trip";
+        }
         Trip newTrip = new Trip(tripID, username, title, description, dateTime, meetingPoint, meetingPointWazeUrl,groupSizeLimit,false);
 
         Call<Trip> call;
