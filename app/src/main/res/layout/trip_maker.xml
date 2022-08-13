@@ -34,13 +34,13 @@
 
     <TextView
         android:id="@+id/textView6"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="108dp"
+        android:layout_height="32dp"
         android:layout_marginTop="16dp"
         android:text="Trip date:"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintHorizontal_bias="0.085"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
         app:layout_constraintTop_toBottomOf="@+id/tripDescText" />
 
@@ -48,24 +48,11 @@
         android:id="@+id/textView9"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="Meeting point:"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintStart_toStartOf="@+id/guideline9"
-        app:layout_constraintTop_toBottomOf="@+id/tripdate" />
-
-    <EditText
-        android:id="@+id/tripdate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="10dp"
-        android:ems="10"
-        android:hint="YYYY-MM-DD"
-        android:inputType="date"
-        app:layout_constraintEnd_toStartOf="@+id/guideline8"
-        app:layout_constraintHorizontal_bias="0.144"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -184,6 +171,18 @@
         android:inputType="numberSigned"
         app:layout_constraintStart_toEndOf="@+id/trip_limit_check_box"
         app:layout_constraintTop_toBottomOf="@+id/maker_meeting_point_waze" />
+
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="224dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="12dp"
+        android:text="Click To Choose Date"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView6"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toTopOf="@+id/textView6"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -1,15 +1,19 @@
 package com.example.groupdrive.ui.fragments;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.groupdrive.R;
 import com.example.groupdrive.api.ApiClient;
@@ -17,6 +21,7 @@ import com.example.groupdrive.api.ApiInterface;
 import com.example.groupdrive.model.trip.Trip;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -27,6 +32,7 @@ public class MakerActivity extends AppCompatActivity {
     private Button createBtn;
     private TextView title, description, meetingPoint, wazeUrl, date,maxGroupSize;
     private CheckBox limitCheckBox;
+    //private DatePickerFragment datePickerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +53,11 @@ public class MakerActivity extends AppCompatActivity {
                 }
             }
         });
+
+        DatePickerFragment.dateTextView = findViewById(R.id.dateTextView);
         title = findViewById(R.id.tripTitleText);
         description = findViewById(R.id.tripDescText);
-        date = findViewById(R.id.tripdate);
+        date = findViewById(R.id.dateTextView);
         meetingPoint = findViewById(R.id.maker_meeting_point);
         wazeUrl = findViewById(R.id.maker_meeting_point_waze);
 
@@ -62,6 +70,15 @@ public class MakerActivity extends AppCompatActivity {
                         wazeUrl.getText().toString());
             }
         });
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+
     }
 
     private void onCreateTrip(String title, String description, String dateTime, String meetingPoint, String meetingPointWazeUrl) {
@@ -107,4 +124,27 @@ public class MakerActivity extends AppCompatActivity {
         switchActivityIntent.putExtra("username", getIntent().getExtras().getString("username"));
         startActivity(switchActivityIntent);
     }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+        public static TextView dateTextView;
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(requireContext(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            dateTextView.setText(year + "-" + (month + 1) + "-" + day);
+        }
+    }
+
 }
