@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.MapsActivity">
+    tools:context=".ui.fragments.MapsActivity"
+    android:id="@+id/mapConstraintLayout">
 
     <TextView
         android:id="@+id/textView4"
@@ -41,8 +42,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.932"
         app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName3"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.651"
+        app:layout_constraintTop_toBottomOf="@+id/liveMessageButton"
+        app:layout_constraintVertical_bias="0.583"
         app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
     <EditText
@@ -95,5 +96,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="119dp" />
+
+    <ImageButton
+        android:id="@+id/liveMessageButton"
+        android:layout_width="52dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
