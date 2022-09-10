@@ -3,10 +3,13 @@ package com.example.groupdrive.ui.adapters;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,7 @@ import com.example.groupdrive.ui.fragments.ViewTripDetails;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -45,6 +49,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView tripTitleTextView, tripDateTextView, tripMeetingPointTextView, creatorTextView, participantsCount;
         private Button joinTripBtn, detailsTripBtn, liveTripBtn,delBtn;
+        private ImageView imgView;
         public MyViewHolder(final View view) {
             super(view);
             participantsCount = view.findViewById(R.id.trip_participants_count);
@@ -56,9 +61,49 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
             joinTripBtn = view.findViewById(R.id.joinTripBtn);
             detailsTripBtn = view.findViewById(R.id.detailsTripBtn);
             delBtn = view.findViewById(R.id.trip_delete_btn);
+            imgView = view.findViewById(R.id.imageView);
+            setRandomImg(imgView);
         }
     }
+    private void setRandomImg(ImageView imgView){
+        Random r = new Random();
+        int n = r.nextInt(10) + 1;
+        switch (n){
+            case 1:
+                imgView.setImageResource(R.drawable.t1);
+                break;
+            case 2:
+                imgView.setImageResource(R.drawable.t2);
+                break;
+            case 3:
+                imgView.setImageResource(R.drawable.t3);
+                break;
+            case 4:
+                imgView.setImageResource(R.drawable.t4);
+                break;
+            case 5:
+                imgView.setImageResource(R.drawable.t5);
+                break;
+            case 6:
+                imgView.setImageResource(R.drawable.t6);
+                break;
+            case 7:
+                imgView.setImageResource(R.drawable.t7);
+                break;
+            case 8:
+                imgView.setImageResource(R.drawable.t8);
 
+                break;
+            case 9:
+                imgView.setImageResource(R.drawable.t9);
+
+                break;
+            case 10:
+                imgView.setImageResource(R.drawable.t10);
+
+                break;
+        }
+    }
     @NonNull
     @Override
     public recyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
