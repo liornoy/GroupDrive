@@ -38,6 +38,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     private ArrayList<Trip> tripList;
     private String username;
     private String creator;
+    private String tripCreatorName;
 
 
     public recyclerAdapter(ArrayList<Trip> tripsList, String username, String creator) {
@@ -111,10 +112,11 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         return new MyViewHolder(itemView);
     }
 
-    private void gotoMaps(View view,String tripID) {
+    private void gotoMaps(View view,String tripID, String tripCreator) {
         Intent switchActivityIntent = new Intent(view.getContext(), MapsActivity.class);
         switchActivityIntent.putExtra("tripID", tripID);
         switchActivityIntent.putExtra("username", this.username);
+        switchActivityIntent.putExtra("tripCreator", tripCreator);
         view.getContext().startActivity(switchActivityIntent);
     }
     private void gotoTripDetails(View view, Trip trip){
@@ -151,10 +153,11 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
         String tripID = tripList.get(position).getId();
+        String tripCreator = tripList.get(position).getCreator();
         holder.liveTripBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                gotoMaps(view,tripID);
+                gotoMaps(view,tripID, tripCreator);
             }
         });
         holder.joinTripBtn.setOnClickListener(new View.OnClickListener() {

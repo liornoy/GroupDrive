@@ -1,23 +1,23 @@
 
 package com.example.groupdrive.ui.fragments;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
 
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.location.Location;
-import android.location.LocationRequest;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.groupdrive.R;
@@ -25,12 +25,11 @@ import com.example.groupdrive.api.ApiClient;
 import com.example.groupdrive.api.ApiInterface;
 import com.example.groupdrive.databinding.ActivityMapsBinding;
 import com.example.groupdrive.model.GPSLocation.GPSLocation;
-import com.example.groupdrive.model.trip.Trip;
+import com.example.groupdrive.model.trip.LiveMessage;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,8 +39,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.example.groupdrive.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,10 +50,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private String username, tripID;
+    private String username, tripID, tripCreator;
     private ArrayList<Marker> markers;
     private Marker userMarker;
     private GoogleMap mMap;
+    private int lastLiveMessageTimeStamp = 0;
+    private int locationsRequestsCounter = 0;
+    private ImageButton liveMessageButton;
+    private String liveMessage = "";
     private Location mLocation;
     private LocationCallback locationCallback;
     private ActivityMapsBinding binding;
@@ -64,7 +67,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient fusedLocationClient;
     public static final String TAG = "DEBUG"; //tag for logcat
 
-    private void updateBEUSerLocation(GPSLocation gpsLocation){
+    private void updateBEUSerLocation(GPSLocation gpsLocation)
+    {
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
         Call<String> call;
         String url = "/api/trips/"+ tripID+"/update-coordinates";
@@ -82,6 +86,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
+
     private ArrayList<GPSLocation> getTripGPSLocations(){
         Log.d(TAG, "getTripsGPSLocations called...");
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
@@ -153,21 +158,46 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         username = getIntent().getExtras().getString("username");
         tripID = getIntent().getExtras().getString("tripID");
+        tripCreator = getIntent().getExtras().getString("tripCreator");
+        liveMessageButton = findViewById(R.id.liveMessageButton);
+        if (username.equals(tripCreator))
+        {
+            liveMessageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onLiveMessageButtonClicked();
+                }
+            });
+        }
+        else
+        {
+            liveMessageButton.setEnabled(false);
+            liveMessageButton.setVisibility(View.INVISIBLE);
+            Log.d(TAG, "username (" + username + ") and creator name (+" + tripCreator + ") are not equal");
+        }
+
+
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 if (locationResult == null) {
                     return;
                 }
-                Toast.makeText(MapsActivity.this, "Location updated by device!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(MapsActivity.this, "Location updated by device!", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Location updated by device!");
+
                 Location location = locationResult.getLastLocation();
                 updateUserLocationOnMap(locationResult.getLastLocation());
                 //updateUserLocationOnMap(location);
                 updateBEUSerLocation(new GPSLocation(location.getLongitude(),location.getLatitude()));
                 ArrayList<GPSLocation> locations = getTripGPSLocations();
                 if (locations != null){
-                updateMarkers(locations);
+                    updateMarkers(locations);
                 }
+                locationsRequestsCounter++;
+                //checking live messages once every 7 cycles of GPS updates.
+                if(locationsRequestsCounter % 7 == 0)
+                    CheckAndUpdateLiveMessages();
             }
         };
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -304,5 +334,102 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         double x = Math.cos(latitude1) * Math.sin(latitude2) - Math.sin(latitude1) * Math.cos(latitude2) * Math.cos(longDiff);
 
         return (Math.toDegrees(Math.atan2(y, x)) + 360) % 360;
+    }
+
+    public void CheckAndUpdateLiveMessages()
+    {
+        Log.d(TAG, "starting \"CheckAndUpdateLiveMessages\"");
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<LiveMessage> call;
+        String url = "/api/trips/" + tripID + "/live-messages";
+        call = apiInterface.getLastLiveMessage(url);
+        call.enqueue(new Callback<LiveMessage>()
+        {
+            @Override
+            public void onResponse(Call<LiveMessage> call,Response<LiveMessage> response)
+            {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Failed to get live messages from server!", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Live messages pull failed - error returned from server!");
+                }
+                else
+                {
+                    Log.d(TAG, "pulled live messages!: ");
+                    LiveMessage message = response.body();
+                    Log.d(TAG, message.getMessage());
+
+                    if(lastLiveMessageTimeStamp != message.getTimeStamp())
+                    {
+                        lastLiveMessageTimeStamp = message.getTimeStamp();
+                        Log.d(TAG, "Toasting live message...");
+                        //Toast.makeText(getApplicationContext(), "Message From Trip Creator:" + message.getMessage(), Toast.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(R.id.mapConstraintLayout), "Message From Trip Manager: " + message.getMessage(), 5000).show();
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<LiveMessage> call, Throwable t)
+            {
+                //Toast.makeText(getApplicationContext(), "Failed to update user location", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Live messages pull failed - no response!");
+                Log.d(TAG, t.getMessage());
+            }
+        });
+    }
+    public void onLiveMessageButtonClicked()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Live Message");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                sendLiveMessage(input.getText().toString());
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
+    }
+
+    public void sendLiveMessage(String msg)
+    {
+        ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+        Call<String> call;
+        String url = "/api/trips/" + tripID + "/live-messages";
+
+        call = apiInterface.sendLiveMessage(url, new LiveMessage(1,tripID,msg));
+        call.enqueue(new Callback<String>()
+        {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response)
+            {
+                if (!response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Failed to post live message to server", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "Live messages post failed - error returned from server!");
+                }
+                else
+                {
+                    Log.d(TAG, "successfully posted live message to server!");
+                }
+
+            }
+            @Override
+            public void onFailure(Call<String> call, Throwable t)
+            {
+                Toast.makeText(getApplicationContext(), "Failed to send live message", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "Live message post failed - no response!");
+                Log.d(TAG, t.getMessage());
+            }
+        });
     }
 }
