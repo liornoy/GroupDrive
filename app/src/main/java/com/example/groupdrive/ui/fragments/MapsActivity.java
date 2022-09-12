@@ -10,14 +10,19 @@ import androidx.core.content.ContextCompat;
 
 import android.content.DialogInterface;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.groupdrive.R;
@@ -60,8 +65,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ImageButton liveMessageButton;
     private String liveMessage = "";
     private Location mLocation;
+    private MediaPlayer mp;
     private LocationCallback locationCallback;
     private ActivityMapsBinding binding;
+    private TextView liveMessagesTextView;
     private com.google.android.gms.location.LocationRequest locationRequest;
     private ActivityResultLauncher<String> requestPermissionLauncher;
     //private FusedLocationProviderClient fusedLocationClient;
@@ -154,12 +161,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
         markers = new ArrayList<>();
+        mp = MediaPlayer.create(this, Settings.System.DEFAULT_NOTIFICATION_URI);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         username = getIntent().getExtras().getString("username");
         tripID = getIntent().getExtras().getString("tripID");
         tripCreator = getIntent().getExtras().getString("tripCreator");
+        liveMessagesTextView = findViewById(R.id.liveMessagesTextView);
         liveMessageButton = findViewById(R.id.liveMessageButton);
         if (username.equals(tripCreator))
         {
@@ -362,15 +371,25 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 else
                 {
-                    Log.d(TAG, "pulled live messages!: ");
+                    Log.d(TAG, "pulled live message: ");
                     LiveMessage message = response.body();
                     Log.d(TAG, message.getMessage());
 
                     if(lastLiveMessageTimeStamp != message.getTimeStamp())
                     {
                         lastLiveMessageTimeStamp = message.getTimeStamp();
-                        Log.d(TAG, "Toasting live message...");
-                        Snackbar.make(findViewById(R.id.mapConstraintLayout), "Message From Trip Manager: " + message.getMessage(), 5000).show();
+                        Log.d(TAG, "Snackbaring live message...");
+                        liveMessagesTextView.setText(message.getMessage());
+                        //Snackbar.make(findViewById(R.id.mapConstraintLayout), "Message From Trip Manager: " + message.getMessage(), 5000).show();
+
+                        // animation attempt:
+                        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+                        anim.setDuration(200); //You can manage the blinking time with this parameter
+                        anim.setStartOffset(20);
+                        anim.setRepeatMode(Animation.REVERSE);
+                        anim.setRepeatCount(16);
+                        liveMessagesTextView.startAnimation(anim);
+                        mp.start();
                     }
                 }
             }
