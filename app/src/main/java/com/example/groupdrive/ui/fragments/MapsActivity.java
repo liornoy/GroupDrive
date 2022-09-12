@@ -63,6 +63,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int lastLiveMessageTimeStamp = 0;
     private int locationsRequestsCounter = 0;
     private ImageButton liveMessageButton;
+    private float lastZoomLevel = 0.0f;
     private String liveMessage = "";
     private Location mLocation;
     private MediaPlayer mp;
@@ -121,7 +122,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             return response.body();
         } else {
             Log.d(TAG, "Bad Response...");
-            System.out.println("Bad Response");
         }
         Log.d(TAG, "getTripsGPSLocations finished unsuccessfully...");
         return null;
@@ -194,9 +194,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 {
                     return;
                 }
+
                 locationUpdatesCounter++;
 
-                if (locationUpdatesCounter > 1 && locationUpdatesCounter < 3)
+                if (locationUpdatesCounter > 3 && locationUpdatesCounter < 7)
                 {
                     return;
                 }
@@ -300,7 +301,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             //Toast.makeText(this, "ACCESS_FINE_LOCATION is granted!", Toast.LENGTH_LONG).show();
             setLocationSettings();
             getLastKnownLocation();
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(15.0f));
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(17.0f));
             startLocationUpdates();
         }
     }
