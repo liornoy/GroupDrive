@@ -255,7 +255,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             double updatedBearing = bearing(userMarker.getPosition().latitude, userMarker.getPosition().longitude, location.getLatitude(), location.getLongitude());
             userMarker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
-                    new LatLng(location.getLatitude(), location.getLongitude()), 15.0f, 0, (float)updatedBearing
+                    new LatLng(location.getLatitude(), location.getLongitude()), mMap.getCameraPosition().zoom, 0, (float)updatedBearing
             )));
         }
         Log.d(TAG, "Updated user location on map.");
