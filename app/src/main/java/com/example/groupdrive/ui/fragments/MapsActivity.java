@@ -255,7 +255,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             double updatedBearing = bearing(userMarker.getPosition().latitude, userMarker.getPosition().longitude, location.getLatitude(), location.getLongitude());
             userMarker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(
-                    new LatLng(location.getLatitude(), location.getLongitude()), 20.0f, 0, (float)updatedBearing
+                    new LatLng(location.getLatitude(), location.getLongitude()), 15.0f, 0, (float)updatedBearing
             )));
         }
         Log.d(TAG, "Updated user location on map.");
@@ -297,7 +297,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (isPermissionGranted("android.permission.ACCESS_FINE_LOCATION"))
         {
-            Toast.makeText(this, "ACCESS_FINE_LOCATION is granted!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "ACCESS_FINE_LOCATION is granted!", Toast.LENGTH_LONG).show();
             setLocationSettings();
             getLastKnownLocation();
             mMap.moveCamera(CameraUpdateFactory.zoomTo(15.0f));
@@ -366,7 +366,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onResponse(Call<LiveMessage> call,Response<LiveMessage> response)
             {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Failed to get live messages from server!", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Live messages pull failed - error returned from server!");
                 }
                 else
@@ -396,7 +395,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onFailure(Call<LiveMessage> call, Throwable t)
             {
-                //Toast.makeText(getApplicationContext(), "Failed to update user location", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Live messages pull failed - no response!");
                 Log.d(TAG, t.getMessage());
             }
@@ -440,7 +438,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onResponse(Call<String> call, Response<String> response)
             {
                 if (!response.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Failed to post live message to server", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "Live messages post failed - error returned from server!");
                 }
                 else
@@ -452,7 +449,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onFailure(Call<String> call, Throwable t)
             {
-                Toast.makeText(getApplicationContext(), "Failed to send live message", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "Live message post failed - no response!");
                 Log.d(TAG, t.getMessage());
             }
