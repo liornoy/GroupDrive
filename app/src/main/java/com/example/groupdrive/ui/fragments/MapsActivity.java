@@ -54,6 +54,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ArrayList<Marker> markers;
     private Marker userMarker;
     private GoogleMap mMap;
+    private int locationUpdatesCounter = 0;
     private int lastLiveMessageTimeStamp = 0;
     private int locationsRequestsCounter = 0;
     private ImageButton liveMessageButton;
@@ -180,10 +181,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                if (locationResult == null) {
+                if (locationResult == null)
+                {
                     return;
                 }
-                //Toast.makeText(MapsActivity.this, "Location updated by device!", Toast.LENGTH_LONG).show();
+                locationUpdatesCounter++;
+
+                if (locationUpdatesCounter > 1 && locationUpdatesCounter < 3)
+                {
+                    return;
+                }
+
                 Log.d(TAG, "Location updated by device!");
 
                 Location location = locationResult.getLastLocation();
@@ -226,7 +234,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-    public void updateUserLocationOnMap(Location location) {
+    public void updateUserLocationOnMap(Location location)
+    {
         if (userMarker == null)
         {
             userMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("You").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)));
@@ -362,7 +371,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     {
                         lastLiveMessageTimeStamp = message.getTimeStamp();
                         Log.d(TAG, "Toasting live message...");
-                        //Toast.makeText(getApplicationContext(), "Message From Trip Creator:" + message.getMessage(), Toast.LENGTH_SHORT).show();
                         Snackbar.make(findViewById(R.id.mapConstraintLayout), "Message From Trip Manager: " + message.getMessage(), 5000).show();
                     }
                 }
