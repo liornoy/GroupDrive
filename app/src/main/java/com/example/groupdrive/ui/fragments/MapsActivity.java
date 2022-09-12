@@ -301,7 +301,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             //Toast.makeText(this, "ACCESS_FINE_LOCATION is granted!", Toast.LENGTH_LONG).show();
             setLocationSettings();
             getLastKnownLocation();
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(17.0f));
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(15.0f));
             startLocationUpdates();
         }
     }
